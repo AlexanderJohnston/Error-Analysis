@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace WindowsFormsApplication1
 {
@@ -18,6 +19,7 @@ namespace WindowsFormsApplication1
         public ErrorAnalysis()
         {
             InitializeComponent();
+            dataGridView1.DoubleBuffered(true);
         }
 
         /// <summary>
@@ -66,12 +68,13 @@ namespace WindowsFormsApplication1
         public static DataTable EntryPoint(string selectedFile)
         {
             // Build a data table to store our incoming file using the 1500 schema which is defined in the method.
-            DataTable table1500Layout = ConstructTable1500();
+            DataTable table1500Layout = ConstructTable1500(selectedFile);
 
+            // Begin Error Analysis
+            int badFinder = CheckFinder(table1500Layout);
+            int badDuplicates = CheckDuplicates(table1500Layout);
 
-            // Import the selected data file into our new table.
-            table1500Layout = CommonEngine.CsvToDataTable(selectedFile, "ImportRecord", ',', true);
-
+            // Display the table.
             return table1500Layout;
 
             // End Method.
@@ -80,7 +83,7 @@ namespace WindowsFormsApplication1
         /// <summary>
         /// Construct a new data table with the 1500 byte Engage layout.
         /// </summary>
-        public static DataTable ConstructTable1500()
+        public static DataTable ConstructTable1500(string selectedFile)
         {
             // Define the columns in 1500 byte layout for Engage.
             DataColumn[] newCols ={
@@ -147,8 +150,50 @@ namespace WindowsFormsApplication1
             DataTable newTable1500 = new DataTable("1500 Layout Analysis");
             newTable1500.Columns.AddRange(newCols);
 
+            // Import the data.
+            try
+            {
+                newTable1500 = CommonEngine.CsvToDataTable(selectedFile, "ImportRecord", ',', true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Your file might be in use by another program.\r\n" + ex, "Read File Error!");
+            }
+
             return newTable1500;
             // End Method.
+        }
+
+        public static int CheckFinder(DataTable currentDataFile)
+        {
+            // Define a counter to hold our errors.
+            int i = 0;
+
+            // Iterate over each row, checking the length of the Finder Number (ID) column.
+            foreach(DataRow row in currentDataFile.Rows)
+            {
+                if ( row["Finder_No"].ToString().Length != 11)
+                {
+                    i++;
+                }
+            }
+            return i;
+            // End Method.
+        }
+
+        public static int CheckDuplicates(DataTable currentDataFile)
+        {
+            // Build a new list of strings to hold duplicate values.
+            List<String> listDupeIDs = new List<String>();
+
+            // Use LINQ to group the duplicates into a list.
+            var duplicateIDs = currentDataFile.AsEnumerable().GroupBy(r => r[38]).Where(gr => gr.Count() > 1).ToList();
+            foreach (object dupe in duplicateIDs)
+            {
+                listDupeIDs.Add(dupe.ToString());
+            }
+            MessageBox.Show(duplicateIDs.Count().ToString());
+            return duplicateIDs.Count();
         }
         // End Class.
     }
@@ -178,5 +223,22 @@ namespace WindowsFormsApplication1
         }
 
         // End Class.
+    }
+
+    /// <summary>
+    /// This class handles double buffering for data grid view tools. This prevents flickering.
+    /// </summary>
+    static class DataGridViewExtensioncs
+    {
+        /// <summary>
+        /// This method prevents flickering on data grid view tables.
+        /// </summary>
+        public static void DoubleBuffered(this DataGridView dgv, bool setting)
+        {
+            var dgvType = dgv.GetType();
+            var pi = dgvType.GetProperty("DoubleBuffered",
+                  BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgv, setting, null);
+        }
     }
 }
