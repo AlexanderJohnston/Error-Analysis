@@ -32,6 +32,8 @@
             this.labelFilePath = new System.Windows.Forms.Label();
             this.buttonSelectFile = new System.Windows.Forms.Button();
             this.buttonAnalyze = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // textFilePath
@@ -58,6 +60,7 @@
             this.buttonSelectFile.TabIndex = 2;
             this.buttonSelectFile.Text = "Select File";
             this.buttonSelectFile.UseVisualStyleBackColor = true;
+            this.buttonSelectFile.Click += new System.EventHandler(this.buttonSelectFile_Click);
             // 
             // buttonAnalyze
             // 
@@ -67,18 +70,29 @@
             this.buttonAnalyze.TabIndex = 3;
             this.buttonAnalyze.Text = "Analyze";
             this.buttonAnalyze.UseVisualStyleBackColor = true;
+            this.buttonAnalyze.Click += new System.EventHandler(this.buttonAnalyze_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(90, 211);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(772, 253);
+            this.dataGridView1.TabIndex = 4;
             // 
             // ErrorAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 525);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonAnalyze);
             this.Controls.Add(this.buttonSelectFile);
             this.Controls.Add(this.labelFilePath);
             this.Controls.Add(this.textFilePath);
             this.Name = "ErrorAnalysis";
             this.Text = "Error Analysis";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -90,6 +104,7 @@
         private System.Windows.Forms.Label labelFilePath;
         private System.Windows.Forms.Button buttonSelectFile;
         private System.Windows.Forms.Button buttonAnalyze;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 
