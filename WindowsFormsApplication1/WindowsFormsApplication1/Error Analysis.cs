@@ -19,6 +19,7 @@ namespace WindowsFormsApplication1
 
         public string SelectFile()
         {
+            string selectedFile = null;
 
         }
     }
