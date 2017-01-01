@@ -73,6 +73,7 @@ namespace WindowsFormsApplication1
             // Begin Error Analysis
             int badFinder = CheckFinder(table1500Layout);
             int badDuplicates = CheckDuplicates(table1500Layout);
+            int badDropmatch = CheckDropKeys(table1500Layout);
 
             // Display the table.
             return table1500Layout;
@@ -164,6 +165,9 @@ namespace WindowsFormsApplication1
             // End Method.
         }
 
+        /// <summary>
+        /// Group fields by value to detect duplicate ID numbers.
+        /// </summary>
         public static int CheckFinder(DataTable currentDataFile)
         {
             // Define a counter to hold our errors.
@@ -181,18 +185,32 @@ namespace WindowsFormsApplication1
             // End Method.
         }
 
+        /// <summary>
+        /// Compare drop and split fields against the keycode to ensure they are properly assigned.
+        /// </summary>
+        public static int CheckDropKeys(DataTable currentDataFile)
+        {
+            // Initialize the drop count variable.
+            int badDropCount = 0;
+
+
+
+            return badDropCount;
+            // End Method.
+        }
+
         public static int CheckDuplicates(DataTable currentDataFile)
         {
             // Build a new list of strings to hold duplicate values.
-            List<String> listDupeIDs = new List<String>();
+            //List<String> listDupeIDs = new List<String>();
 
             // Use LINQ to group the duplicates into a list.
             var duplicateIDs = currentDataFile.AsEnumerable().GroupBy(r => r[38]).Where(gr => gr.Count() > 1).ToList();
-            foreach (object dupe in duplicateIDs)
-            {
-                listDupeIDs.Add(dupe.ToString());
-            }
-            MessageBox.Show(duplicateIDs.Count().ToString());
+            //foreach (object dupe in duplicateIDs)
+            //{
+            //    listDupeIDs.Add(dupe.ToString());
+            //}
+
             return duplicateIDs.Count();
         }
         // End Class.
