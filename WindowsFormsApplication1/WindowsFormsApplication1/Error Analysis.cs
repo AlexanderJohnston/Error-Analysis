@@ -73,6 +73,7 @@ namespace WindowsFormsApplication1
             // Begin Error Analysis
             int badFinder = CheckFinder(table1500Layout);
             int badDuplicates = CheckDuplicates(table1500Layout);
+            int badKeycodes = CheckKeycodes(table1500Layout);
 
             // Display the table.
             return table1500Layout;
@@ -183,17 +184,21 @@ namespace WindowsFormsApplication1
 
         public static int CheckDuplicates(DataTable currentDataFile)
         {
-            // Build a new list of strings to hold duplicate values.
-            List<String> listDupeIDs = new List<String>();
-
             // Use LINQ to group the duplicates into a list.
             var duplicateIDs = currentDataFile.AsEnumerable().GroupBy(r => r[38]).Where(gr => gr.Count() > 1).ToList();
-            foreach (object dupe in duplicateIDs)
-            {
-                listDupeIDs.Add(dupe.ToString());
-            }
-            MessageBox.Show(duplicateIDs.Count().ToString());
             return duplicateIDs.Count();
+        }
+
+        public static int CheckKeycodes(DataTable currentDataFile)
+        {
+            // Determine if Keycodes are all the correct length.
+            var lengthKeycodes = currentDataFile.AsEnumerable()
+                .Where(r => ((string)r["Keycode"]).Length != 11).ToList();
+
+            // Return the count of keycodes with the wrong length.
+            return lengthKeycodes.Count();
+
+            // End Method.
         }
         // End Class.
     }
