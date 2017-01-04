@@ -73,7 +73,8 @@ namespace WindowsFormsApplication1
             // Begin Error Analysis
             int badFinder = CheckFinder(table1500Layout);
             int badDuplicates = CheckDuplicates(table1500Layout);
-            int badKeycodes = CheckKeycodes(table1500Layout);
+            int badKeycodeLength = CheckKeycodeLength(table1500Layout);
+            int badKeycodeFormat = CheckKeyodeFormat(table1500Layout);
 
             // Display the table.
             return table1500Layout;
@@ -189,7 +190,7 @@ namespace WindowsFormsApplication1
             return duplicateIDs.Count();
         }
 
-        public static int CheckKeycodes(DataTable currentDataFile)
+        public static int CheckKeycodeLength(DataTable currentDataFile)
         {
             // Determine if Keycodes are all the correct length.
             var lengthKeycodes = currentDataFile.AsEnumerable()
@@ -200,12 +201,30 @@ namespace WindowsFormsApplication1
 
             // End Method.
         }
+        
+        public static int CheckKeycodeFormat(DataTable currentDataFile)
+        {
+            // Initialize a counter to store our bad format Keycodes.
+            /* Find a new variable which is a list based on
+            *  a string column name "Keycode" from byte 9 to 11 in it,
+            *  when it is not equal to a string column "Drop" from byte 2 to 2,
+            *  added to the string column "Split".
+            */
+            var countBadFormat = currentDataFile.AsEnumerable()
+                .Where(r => ((string)r["Keycode"]).Substring(9, 2)
+                != ((string)r["Drop"]).Substring(1, 1)
+                + ((string)r["Split"]).ToString()).ToList();
+
+            return countBadFormat.Count();
+        }
+
         // End Class.
     }
 
     /// <summary>
     /// This class will handle all filesystem I/O functions such as load, select, streaming, writing etc...
     /// </summary>
+    /// 
     public class FileManagement
     {
         /// <summary>
