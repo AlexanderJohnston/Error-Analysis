@@ -205,10 +205,10 @@ namespace WindowsFormsApplication1
         public static int CheckKeycodeDropSplit(DataTable currentDataFile)
         {
             /* Initialize a counter to store our bad format Keycodes.
-            * Find a new variable which is a list based on
+            *  Find a new variable which is a list based on
             *  a string column name "Keycode" from byte 9 to 11,
             *  when it is not equal to a string column "Drop",
-            *   from byte 2 to 2, added to the string column "Split".
+            *  from byte 2 to 2, added to the string column "Split".
             */
             var countBadFormat = currentDataFile.AsEnumerable()
                 .Where(r => ((string)r["Keycode"]).Substring(9, 2)
