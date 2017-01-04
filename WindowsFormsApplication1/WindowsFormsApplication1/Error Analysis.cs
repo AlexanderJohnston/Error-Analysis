@@ -75,6 +75,10 @@ namespace WindowsFormsApplication1
             int badDuplicates = CheckDuplicates(table1500Layout);
             int badKeycodeLength = CheckKeycodeLength(table1500Layout);
             int badKeycodeFormat = CheckKeycodeDropSplit(table1500Layout);
+            int countDropCode = CheckDropCode(table1500Layout);
+            int countSplitCode = CheckSplitCode(table1500Layout);
+            bool checkSequential = CheckSequenceOrder(table1500Layout);
+            bool checkIMBNull = CheckIMBExists(table1500Layout);
 
             // Display the table.
             return table1500Layout;
@@ -87,66 +91,68 @@ namespace WindowsFormsApplication1
         /// </summary>
         public static DataTable ConstructTable1500(string selectedFile)
         {
+            // Define a temporary table for later.
+            DataTable newTable1500Import = new DataTable();
             // Define the columns in 1500 byte layout for Engage.
             DataColumn[] newCols ={
-                new DataColumn("Seq", typeof(String)),
+                new DataColumn("Seq", typeof(int)),
                 new DataColumn("Title", typeof(String)),
-                new DataColumn("First Name", typeof(String)),
-                new DataColumn("Middle Name", typeof(String)),
-                new DataColumn("Last Name", typeof(String)),
+                new DataColumn("First_Name", typeof(String)),
+                new DataColumn("Middle_Name", typeof(String)),
+                new DataColumn("Last_Name", typeof(String)),
                 new DataColumn("Suffix", typeof(String)),
-                new DataColumn("Long Name", typeof(String)),
+                new DataColumn("Long_Name", typeof(String)),
                 new DataColumn("Drop", typeof(String)),
                 new DataColumn("Split", typeof(String)),
-                new DataColumn("House (H)/Prospect (P)", typeof(String)),
+                new DataColumn("House_(H)/Prospect_(P)", typeof(String)),
                 new DataColumn("Ref#", typeof(String)),
                 new DataColumn("DPC", typeof(String)),
-                new DataColumn("Dear Sal", typeof(String)),
+                new DataColumn("Dear_Sal", typeof(String)),
                 new DataColumn("Salutation2", typeof(String)),
                 new DataColumn("Salutation3", typeof(String)),
                 new DataColumn("Company", typeof(String)),
-                new DataColumn("Secondary Addr", typeof(String)),
-                new DataColumn("Primary Addr", typeof(String)),
+                new DataColumn("Secondary_Addr", typeof(String)),
+                new DataColumn("Primary_Addr", typeof(String)),
                 new DataColumn("City", typeof(String)),
                 new DataColumn("ST", typeof(String)),
                 new DataColumn("Zip", typeof(String)),
                 new DataColumn(" - ", typeof(String)),
                 new DataColumn("Zip4", typeof(String)),
-                new DataColumn("MRG Date", typeof(String)),
-                new DataColumn("MRG Amount", typeof(String)),
-                new DataColumn("MRG Month", typeof(String)),
-                new DataColumn("HPC Date", typeof(String)),
-                new DataColumn("HPC Amount", typeof(String)),
-                new DataColumn("First Date", typeof(String)),
-                new DataColumn("First Year", typeof(String)),
-                new DataColumn("Amt 1", typeof(String)),
-                new DataColumn("Amt 2", typeof(String)),
-                new DataColumn("Amt 3", typeof(String)),
-                new DataColumn("Amt 4", typeof(String)),
-                new DataColumn("Amt 5", typeof(String)),
+                new DataColumn("MRG_Date", typeof(String)),
+                new DataColumn("MRG_Amount", typeof(String)),
+                new DataColumn("MRG_Month", typeof(String)),
+                new DataColumn("HPC_Date", typeof(String)),
+                new DataColumn("HPC_Amount", typeof(String)),
+                new DataColumn("First_Date", typeof(String)),
+                new DataColumn("First_Year", typeof(String)),
+                new DataColumn("Amt_1", typeof(String)),
+                new DataColumn("Amt_2", typeof(String)),
+                new DataColumn("Amt_3", typeof(String)),
+                new DataColumn("Amt_4", typeof(String)),
+                new DataColumn("Amt_5", typeof(String)),
                 new DataColumn("Amount", typeof(String)),
                 new DataColumn("OEL", typeof(String)),
                 new DataColumn("Keycode", typeof(String)),
-                new DataColumn("Finder No", typeof(String)),
+                new DataColumn("Finder_No", typeof(String)),
                 new DataColumn("Dist", typeof(String)),
                 new DataColumn("Congressmen", typeof(String)),
-                new DataColumn("Senator 1", typeof(String)),
-                new DataColumn("Senator 2", typeof(String)),
+                new DataColumn("Senator_1", typeof(String)),
+                new DataColumn("Senator_2", typeof(String)),
                 new DataColumn("County", typeof(String)),
                 new DataColumn("Governor", typeof(String)),
-                new DataColumn("Full State", typeof(String)),
+                new DataColumn("Full_State", typeof(String)),
                 new DataColumn("IMB", typeof(String)),
-                new DataColumn("File Type", typeof(String)),
+                new DataColumn("File_Type", typeof(String)),
                 new DataColumn("Priority", typeof(String)),
                 new DataColumn("FILENAME", typeof(String)),
-                new DataColumn("Engage Use", typeof(String)),
+                new DataColumn("Engage_Use", typeof(String)),
                 new DataColumn("Client1", typeof(String)),
                 new DataColumn("Client2", typeof(String)),
                 new DataColumn("Client3",typeof(String)),
                 new DataColumn("Client4",typeof(String)),
-                new DataColumn("DPV Error",typeof(String)),
-                new DataColumn("NCOA Mflag",typeof(String)),
-                new DataColumn("NCOA FN",typeof(String))
+                new DataColumn("DPV_Error",typeof(String)),
+                new DataColumn("NCOA_Mflag",typeof(String)),
+                new DataColumn("NCOA_FN",typeof(String))
                 };
             // Define the new data table.
             DataTable newTable1500 = new DataTable("1500 Layout Analysis");
@@ -155,11 +161,25 @@ namespace WindowsFormsApplication1
             // Import the data.
             try
             {
-                newTable1500 = CommonEngine.CsvToDataTable(selectedFile, "ImportRecord", ',', true);
+                newTable1500Import = CommonEngine.CsvToDataTable(selectedFile, "ImportRecord", ',', true);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Your file might be in use by another program.\r\n" + ex, "Read File Error!");
+            }
+
+            // Change the table's column types.
+
+            try
+            {
+                foreach (DataRow row in newTable1500Import.Rows)
+                {
+                    newTable1500.ImportRow(row);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to populate data table correctly.\r\n" + ex, "Import Rows Error!");
             }
 
             return newTable1500;
@@ -184,7 +204,7 @@ namespace WindowsFormsApplication1
         }
 
         public static int CheckDuplicates(DataTable currentDataFile)
-        {
+        { 
             // Use LINQ to group the duplicates into a list.
             var duplicateIDs = currentDataFile.AsEnumerable().GroupBy(r => r[38]).Where(gr => gr.Count() > 1).ToList();
             return duplicateIDs.Count();
@@ -216,6 +236,66 @@ namespace WindowsFormsApplication1
                 + ((string)r["Split"]).ToString()).ToList();
 
             return countBadFormat.Count();
+            // End Method.
+        }
+
+        public static int CheckDropCode(DataTable currentDataFile)
+        {
+            // Check that the drop and split codes are all the same.
+            var valuesDropSplit = currentDataFile.AsEnumerable()
+                .Select(r => ((string)r["Drop"])).Distinct();
+
+            return valuesDropSplit.Count();
+        }
+
+        public static int CheckSplitCode(DataTable currentDataFile)
+        {
+            // Check that all split codes are the same.
+            var countSplitCode = currentDataFile.AsEnumerable()
+                .Select(r => ((string)r["Split"])).Distinct();
+
+            return countSplitCode.Count();
+        }
+
+        public static bool CheckSequenceOrder(DataTable currentDataFile)
+        {
+            // Get our data table into list format.
+            var dataAsList = currentDataFile.Rows.OfType<DataRow>()
+                .Select(r => r.Field<int>("Seq")).ToList<int>();
+            // Make sure that our sequence numbers are in order by generating a new range based on min & count.
+            bool sequentialCheck = Enumerable
+                // Call the Enumerable as a range.
+                .Range(
+                // Define the minimum of the range to be minimum of the "Seq" field on table.
+                dataAsList.Min(),
+                // An iteration of count equal to the total items on the list.
+                dataAsList.Count()
+                       )
+                // And check that this newly generated sequence matches the table.
+                .SequenceEqual(dataAsList);
+
+            return sequentialCheck;
+
+        }
+
+        public static int CheckSequenceMax(DataTable currentDataFile)
+        {
+            // Set the sequence number column to a list of integers.
+            var dataAsList = currentDataFile.Rows.OfType<DataRow>()
+                .Select(r => r.Field<int>("Seq")).ToList<int>();
+
+            // Return the maximum on the list.
+            return dataAsList.Max();
+
+        }
+
+        public static bool CheckIMBExists(DataTable currentDataFile)
+        {
+            // Call the data table's IMB column and look for null values using LINQ.
+            var checkNullExists = currentDataFile.Rows.OfType<DataRow>()
+                .Where(r => r.Field<string>("IMB") == null).ToList();
+
+            return checkNullExists.Count() > 0;
         }
 
         // End Class.
