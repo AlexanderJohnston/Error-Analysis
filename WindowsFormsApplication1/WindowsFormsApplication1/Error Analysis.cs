@@ -103,6 +103,7 @@ namespace WindowsFormsApplication1
             bool checkIMBUnique = CheckIMBUnique(table1500Layout);
             int checkIMBMin = CheckIMBMinLength(table1500Layout);
             int checkIMBMax = CheckIMBMaxLength(table1500Layout);
+            int checkLongNameMatches = CheckLongName(table1500Layout);
 
             // Display the table.
             return table1500Layout;
@@ -358,6 +359,44 @@ namespace WindowsFormsApplication1
                 .Aggregate((pre, cur) => pre > cur ? pre : cur);
 
             return lengthIMBMax;
+        }
+
+        public static int CheckLongName(DataTable currentDataFile)
+        {
+            // Initialize a counter to check if bad names exist.
+            int i = 0;
+            // Initialize an integer list to store row number of bad names.
+            List<int> badIndex = new List<int>();
+
+            // Iterate over the rows in the table to compare names.
+            // Continue will break the loop and jump to the next row, so that we don't count a row 3 times.
+            foreach (DataRow row in currentDataFile.Rows)
+            {
+                // Check to see if the full name contains first name. Do nothing if it does.
+                if (row.Field<string>("Long_Name") != null && row.Field<string>("First_Name") != null &&
+                    row.Field<string>("Long_Name").Contains(row.Field<string>("First_Name")))
+                { }
+                else
+                { i++; continue; }
+
+                // Check to see if the full name contains middle name. Do nothing if it does.
+                if (row.Field<string>("Long_Name") != null && row.Field<string>("Middle_Name") != null &&
+                    row.Field<string>("Long_Name").Contains(row.Field<string>("Middle_Name")))
+                { }
+                else
+                { i++; continue; }
+
+                // Check to see if the full name contains last name. Do nothing if it does.
+                if (row.Field<string>("Long_Name") != null && row.Field<string>("Last_Name") != null &&
+                    row.Field<string>("Long_Name").Contains(row.Field<string>("Last_Name")))
+                { }
+                else
+                { i++; continue; }
+
+            }
+
+            // Return number of mismatched names.
+            return i;
         }
 
         // End Class.
