@@ -53,6 +53,27 @@ namespace WindowsFormsApplication1
 
             // End Method.
         }
+
+        /// <summary>
+        /// Watches for keystrokes to use hotkeys.
+        /// </summary>
+        protected override bool ProcessCmdKey(ref Message message, Keys keys)
+        {
+            switch (keys)
+            {
+                case Keys.Control | Keys.S:
+                    {
+                        buttonSelectFile.PerformClick();
+                        return true;
+                    }
+                case Keys.Control | Keys.A:
+                    {
+                        buttonAnalyze.PerformClick();
+                        return true;
+                    }
+            }
+            return base.ProcessCmdKey(ref message, keys);
+        }
         // End Class.
     }
 

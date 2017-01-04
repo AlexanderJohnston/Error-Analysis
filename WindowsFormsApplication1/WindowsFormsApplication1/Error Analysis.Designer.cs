@@ -90,6 +90,7 @@
             this.Controls.Add(this.buttonSelectFile);
             this.Controls.Add(this.labelFilePath);
             this.Controls.Add(this.textFilePath);
+            this.KeyPreview = true;
             this.Name = "ErrorAnalysis";
             this.Text = "Error Analysis";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
