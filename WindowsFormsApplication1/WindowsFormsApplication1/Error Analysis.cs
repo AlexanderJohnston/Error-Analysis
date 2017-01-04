@@ -100,6 +100,9 @@ namespace WindowsFormsApplication1
             int countSplitCode = CheckSplitCode(table1500Layout);
             bool checkSequential = CheckSequenceOrder(table1500Layout);
             bool checkIMBNull = CheckIMBExists(table1500Layout);
+            bool checkIMBUnique = CheckIMBUnique(table1500Layout);
+            int checkIMBMin = CheckIMBMinLength(table1500Layout);
+            int checkIMBMax = CheckIMBMaxLength(table1500Layout);
 
             // Display the table.
             return table1500Layout;
@@ -317,6 +320,44 @@ namespace WindowsFormsApplication1
                 .Where(r => r.Field<string>("IMB") == null).ToList();
 
             return checkNullExists.Count() > 0;
+        }
+
+        public static bool CheckIMBUnique(DataTable currentDataFile)
+        {
+            // Call the IMB column and look for duplicated values using LINQ.
+            var duplicateIMBs = currentDataFile.Rows.OfType<DataRow>()
+                .GroupBy(r => r.Field<string>("IMB"))
+                // Only select where a group count is greater than 1, meaning a duplicate.
+                .Where(gr => gr.Count() > 1).ToList();
+            return duplicateIMBs.Count()>0;
+        }
+
+        public static int CheckIMBMinLength(DataTable currentDataFile)
+        {
+            // Get the minimum length of the IMB field using LINQ.
+            var lengthIMBMin = currentDataFile.Rows.OfType<DataRow>()
+                // Select just the lengths of each string in this column.
+                .Select(r => r.Field<string>("IMB").Length)
+                // Map them to a list for Aggregate.
+                .ToList()
+                // Compare first two results, then compare the comparison to the next result : iterate until final answer.
+                .Aggregate((pre, cur) => pre < cur ? pre : cur);
+
+            return lengthIMBMin;
+        }
+
+        public static int CheckIMBMaxLength(DataTable currentDataFile)
+        {
+            // Get the maximum length of the IMB field using LINQ.
+            var lengthIMBMax = currentDataFile.Rows.OfType<DataRow>()
+                // Select just the lengths of each string in this column.
+                .Select(r => r.Field<string>("IMB").Length)
+                // Map them to a list for Aggregate.
+                .ToList()
+                // Compare first two results, then compare the comparison to the next result : iterate until final answer.
+                .Aggregate((pre, cur) => pre > cur ? pre : cur);
+
+            return lengthIMBMax;
         }
 
         // End Class.
