@@ -699,6 +699,11 @@ namespace WindowsFormsApplication1
             return sequentialCheck;
         }
 
+        public static int CheckIMBMatchesData(DataTable currentDataFile)
+        {
+            //!fix!(20,11)
+        }
+
         public static int CheckLongName(DataTable currentDataFile)
         {
             // Initialize a counter to check if bad names exist.
