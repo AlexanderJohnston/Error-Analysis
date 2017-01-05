@@ -39,16 +39,18 @@
             this.textIMBNull = new System.Windows.Forms.TextBox();
             this.labelFinderDupe = new System.Windows.Forms.Label();
             this.labelFinderLength = new System.Windows.Forms.Label();
-            this.labelFinderNumber = new System.Windows.Forms.Label();
+            this.labelPanel1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.labelKeycode = new System.Windows.Forms.Label();
+            this.labelPanel2 = new System.Windows.Forms.Label();
             this.labelKeycodeLength = new System.Windows.Forms.Label();
             this.labelKeycodeFormat = new System.Windows.Forms.Label();
             this.textKeycodeLength = new System.Windows.Forms.TextBox();
             this.textKeycodeFormat = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelPanel3 = new System.Windows.Forms.Label();
+            this.labelLongName = new System.Windows.Forms.Label();
+            this.textBadLongName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.labelDrop = new System.Windows.Forms.Label();
             this.textSplitCode = new System.Windows.Forms.TextBox();
@@ -61,14 +63,15 @@
             this.labelIMBMax = new System.Windows.Forms.Label();
             this.textIMBMin = new System.Windows.Forms.TextBox();
             this.textIMBMax = new System.Windows.Forms.TextBox();
-            this.labelLongName = new System.Windows.Forms.Label();
-            this.textBadLongName = new System.Windows.Forms.TextBox();
             this.buttonViewAll = new System.Windows.Forms.Button();
             this.progressBarGeneral = new System.Windows.Forms.ProgressBar();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.labelPanel4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // textFilePath
@@ -133,17 +136,18 @@
             // 
             // textSequential
             // 
-            this.textSequential.Location = new System.Drawing.Point(644, 77);
+            this.textSequential.Location = new System.Drawing.Point(968, 34);
             this.textSequential.Name = "textSequential";
             this.textSequential.Size = new System.Drawing.Size(68, 20);
             this.textSequential.TabIndex = 14;
             // 
             // textIMBNull
             // 
-            this.textIMBNull.Location = new System.Drawing.Point(644, 103);
+            this.textIMBNull.Location = new System.Drawing.Point(101, 38);
             this.textIMBNull.Name = "textIMBNull";
             this.textIMBNull.Size = new System.Drawing.Size(68, 20);
             this.textIMBNull.TabIndex = 15;
+            this.textIMBNull.Click += new System.EventHandler(this.textIMBNull_Click);
             // 
             // labelFinderDupe
             // 
@@ -163,18 +167,18 @@
             this.labelFinderLength.TabIndex = 17;
             this.labelFinderLength.Text = "Wrong Length";
             // 
-            // labelFinderNumber
+            // labelPanel1
             // 
-            this.labelFinderNumber.AutoSize = true;
-            this.labelFinderNumber.Location = new System.Drawing.Point(99, 18);
-            this.labelFinderNumber.Name = "labelFinderNumber";
-            this.labelFinderNumber.Size = new System.Drawing.Size(46, 13);
-            this.labelFinderNumber.TabIndex = 18;
-            this.labelFinderNumber.Text = "Finder #";
+            this.labelPanel1.AutoSize = true;
+            this.labelPanel1.Location = new System.Drawing.Point(86, 17);
+            this.labelPanel1.Name = "labelPanel1";
+            this.labelPanel1.Size = new System.Drawing.Size(46, 13);
+            this.labelPanel1.TabIndex = 18;
+            this.labelPanel1.Text = "Finder #";
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.labelFinderNumber);
+            this.panel1.Controls.Add(this.labelPanel1);
             this.panel1.Controls.Add(this.labelFinderLength);
             this.panel1.Controls.Add(this.labelFinderDupe);
             this.panel1.Controls.Add(this.textFinderLength);
@@ -186,7 +190,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.labelKeycode);
+            this.panel2.Controls.Add(this.labelPanel2);
             this.panel2.Controls.Add(this.labelKeycodeLength);
             this.panel2.Controls.Add(this.labelKeycodeFormat);
             this.panel2.Controls.Add(this.textKeycodeLength);
@@ -196,14 +200,14 @@
             this.panel2.Size = new System.Drawing.Size(182, 118);
             this.panel2.TabIndex = 20;
             // 
-            // labelKeycode
+            // labelPanel2
             // 
-            this.labelKeycode.AutoSize = true;
-            this.labelKeycode.Location = new System.Drawing.Point(111, 18);
-            this.labelKeycode.Name = "labelKeycode";
-            this.labelKeycode.Size = new System.Drawing.Size(49, 13);
-            this.labelKeycode.TabIndex = 18;
-            this.labelKeycode.Text = "Keycode";
+            this.labelPanel2.AutoSize = true;
+            this.labelPanel2.Location = new System.Drawing.Point(99, 17);
+            this.labelPanel2.Name = "labelPanel2";
+            this.labelPanel2.Size = new System.Drawing.Size(49, 13);
+            this.labelPanel2.TabIndex = 18;
+            this.labelPanel2.Text = "Keycode";
             // 
             // labelKeycodeLength
             // 
@@ -241,29 +245,46 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.label4);
-            this.panel3.Controls.Add(this.labelDrop);
-            this.panel3.Controls.Add(this.textSplitCode);
-            this.panel3.Controls.Add(this.textDropCode);
+            this.panel3.Controls.Add(this.labelPanel3);
+            this.panel3.Controls.Add(this.textIMBNull);
+            this.panel3.Controls.Add(this.labelIMBNull);
+            this.panel3.Controls.Add(this.textIMBUnique);
+            this.panel3.Controls.Add(this.labelIMBDupe);
             this.panel3.Location = new System.Drawing.Point(377, 87);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(182, 118);
             this.panel3.TabIndex = 21;
             // 
-            // label1
+            // labelPanel3
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(111, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Drop/Split";
+            this.labelPanel3.AutoSize = true;
+            this.labelPanel3.Location = new System.Drawing.Point(98, 16);
+            this.labelPanel3.Name = "labelPanel3";
+            this.labelPanel3.Size = new System.Drawing.Size(47, 13);
+            this.labelPanel3.TabIndex = 18;
+            this.labelPanel3.Text = "Barcode";
+            // 
+            // labelLongName
+            // 
+            this.labelLongName.AutoSize = true;
+            this.labelLongName.Location = new System.Drawing.Point(3, 42);
+            this.labelLongName.Name = "labelLongName";
+            this.labelLongName.Size = new System.Drawing.Size(67, 13);
+            this.labelLongName.TabIndex = 30;
+            this.labelLongName.Text = "Long Names";
+            // 
+            // textBadLongName
+            // 
+            this.textBadLongName.Location = new System.Drawing.Point(76, 39);
+            this.textBadLongName.Name = "textBadLongName";
+            this.textBadLongName.Size = new System.Drawing.Size(68, 20);
+            this.textBadLongName.TabIndex = 31;
+            this.textBadLongName.Click += new System.EventHandler(this.textBadLongName_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 73);
+            this.label4.Location = new System.Drawing.Point(890, 89);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 13);
             this.label4.TabIndex = 17;
@@ -272,7 +293,7 @@
             // labelDrop
             // 
             this.labelDrop.AutoSize = true;
-            this.labelDrop.Location = new System.Drawing.Point(21, 42);
+            this.labelDrop.Location = new System.Drawing.Point(887, 63);
             this.labelDrop.Name = "labelDrop";
             this.labelDrop.Size = new System.Drawing.Size(75, 13);
             this.labelDrop.TabIndex = 16;
@@ -280,14 +301,14 @@
             // 
             // textSplitCode
             // 
-            this.textSplitCode.Location = new System.Drawing.Point(102, 70);
+            this.textSplitCode.Location = new System.Drawing.Point(968, 86);
             this.textSplitCode.Name = "textSplitCode";
             this.textSplitCode.Size = new System.Drawing.Size(68, 20);
             this.textSplitCode.TabIndex = 6;
             // 
             // textDropCode
             // 
-            this.textDropCode.Location = new System.Drawing.Point(102, 39);
+            this.textDropCode.Location = new System.Drawing.Point(968, 60);
             this.textDropCode.Name = "textDropCode";
             this.textDropCode.Size = new System.Drawing.Size(68, 20);
             this.textDropCode.TabIndex = 5;
@@ -295,7 +316,7 @@
             // labelSequential
             // 
             this.labelSequential.AutoSize = true;
-            this.labelSequential.Location = new System.Drawing.Point(581, 80);
+            this.labelSequential.Location = new System.Drawing.Point(905, 37);
             this.labelSequential.Name = "labelSequential";
             this.labelSequential.Size = new System.Drawing.Size(57, 13);
             this.labelSequential.TabIndex = 22;
@@ -303,15 +324,16 @@
             // 
             // textIMBUnique
             // 
-            this.textIMBUnique.Location = new System.Drawing.Point(644, 129);
+            this.textIMBUnique.Location = new System.Drawing.Point(101, 69);
             this.textIMBUnique.Name = "textIMBUnique";
             this.textIMBUnique.Size = new System.Drawing.Size(68, 20);
             this.textIMBUnique.TabIndex = 23;
+            this.textIMBUnique.Click += new System.EventHandler(this.textIMBUnique_Click);
             // 
             // labelIMBNull
             // 
             this.labelIMBNull.AutoSize = true;
-            this.labelIMBNull.Location = new System.Drawing.Point(582, 106);
+            this.labelIMBNull.Location = new System.Drawing.Point(39, 41);
             this.labelIMBNull.Name = "labelIMBNull";
             this.labelIMBNull.Size = new System.Drawing.Size(56, 13);
             this.labelIMBNull.TabIndex = 24;
@@ -320,7 +342,7 @@
             // labelIMBDupe
             // 
             this.labelIMBDupe.AutoSize = true;
-            this.labelIMBDupe.Location = new System.Drawing.Point(564, 132);
+            this.labelIMBDupe.Location = new System.Drawing.Point(21, 72);
             this.labelIMBDupe.Name = "labelIMBDupe";
             this.labelIMBDupe.Size = new System.Drawing.Size(74, 13);
             this.labelIMBDupe.TabIndex = 25;
@@ -329,7 +351,7 @@
             // labelIMBMin
             // 
             this.labelIMBMin.AutoSize = true;
-            this.labelIMBMin.Location = new System.Drawing.Point(568, 162);
+            this.labelIMBMin.Location = new System.Drawing.Point(892, 119);
             this.labelIMBMin.Name = "labelIMBMin";
             this.labelIMBMin.Size = new System.Drawing.Size(70, 13);
             this.labelIMBMin.TabIndex = 26;
@@ -338,7 +360,7 @@
             // labelIMBMax
             // 
             this.labelIMBMax.AutoSize = true;
-            this.labelIMBMax.Location = new System.Drawing.Point(565, 188);
+            this.labelIMBMax.Location = new System.Drawing.Point(889, 145);
             this.labelIMBMax.Name = "labelIMBMax";
             this.labelIMBMax.Size = new System.Drawing.Size(73, 13);
             this.labelIMBMax.TabIndex = 27;
@@ -346,34 +368,17 @@
             // 
             // textIMBMin
             // 
-            this.textIMBMin.Location = new System.Drawing.Point(644, 155);
+            this.textIMBMin.Location = new System.Drawing.Point(968, 112);
             this.textIMBMin.Name = "textIMBMin";
             this.textIMBMin.Size = new System.Drawing.Size(68, 20);
             this.textIMBMin.TabIndex = 28;
             // 
             // textIMBMax
             // 
-            this.textIMBMax.Location = new System.Drawing.Point(644, 181);
+            this.textIMBMax.Location = new System.Drawing.Point(968, 138);
             this.textIMBMax.Name = "textIMBMax";
             this.textIMBMax.Size = new System.Drawing.Size(68, 20);
             this.textIMBMax.TabIndex = 29;
-            // 
-            // labelLongName
-            // 
-            this.labelLongName.AutoSize = true;
-            this.labelLongName.Location = new System.Drawing.Point(718, 80);
-            this.labelLongName.Name = "labelLongName";
-            this.labelLongName.Size = new System.Drawing.Size(67, 13);
-            this.labelLongName.TabIndex = 30;
-            this.labelLongName.Text = "Long Names";
-            // 
-            // textBadLongName
-            // 
-            this.textBadLongName.Location = new System.Drawing.Point(791, 77);
-            this.textBadLongName.Name = "textBadLongName";
-            this.textBadLongName.Size = new System.Drawing.Size(68, 20);
-            this.textBadLongName.TabIndex = 31;
-            this.textBadLongName.Click += new System.EventHandler(this.textBadLongName_Click);
             // 
             // buttonViewAll
             // 
@@ -392,27 +397,45 @@
             this.progressBarGeneral.Size = new System.Drawing.Size(281, 23);
             this.progressBarGeneral.TabIndex = 34;
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.labelPanel4);
+            this.panel4.Controls.Add(this.labelLongName);
+            this.panel4.Controls.Add(this.textBadLongName);
+            this.panel4.Location = new System.Drawing.Point(565, 86);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(318, 118);
+            this.panel4.TabIndex = 26;
+            // 
+            // labelPanel4
+            // 
+            this.labelPanel4.AutoSize = true;
+            this.labelPanel4.Location = new System.Drawing.Point(140, 17);
+            this.labelPanel4.Name = "labelPanel4";
+            this.labelPanel4.Size = new System.Drawing.Size(40, 13);
+            this.labelPanel4.TabIndex = 18;
+            this.labelPanel4.Text = "Names";
+            // 
             // ErrorAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 525);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.progressBarGeneral);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textSplitCode);
             this.Controls.Add(this.buttonViewAll);
-            this.Controls.Add(this.textBadLongName);
-            this.Controls.Add(this.labelLongName);
+            this.Controls.Add(this.labelDrop);
+            this.Controls.Add(this.textDropCode);
             this.Controls.Add(this.textIMBMax);
             this.Controls.Add(this.textIMBMin);
             this.Controls.Add(this.labelIMBMax);
             this.Controls.Add(this.labelIMBMin);
-            this.Controls.Add(this.labelIMBDupe);
-            this.Controls.Add(this.labelIMBNull);
-            this.Controls.Add(this.textIMBUnique);
             this.Controls.Add(this.labelSequential);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.textIMBNull);
             this.Controls.Add(this.textSequential);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonAnalyze);
@@ -430,6 +453,8 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -448,16 +473,16 @@
         private System.Windows.Forms.TextBox textIMBNull;
         private System.Windows.Forms.Label labelFinderDupe;
         private System.Windows.Forms.Label labelFinderLength;
-        private System.Windows.Forms.Label labelFinderNumber;
+        private System.Windows.Forms.Label labelPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label labelKeycode;
+        private System.Windows.Forms.Label labelPanel2;
         private System.Windows.Forms.Label labelKeycodeLength;
         private System.Windows.Forms.Label labelKeycodeFormat;
         private System.Windows.Forms.TextBox textKeycodeLength;
         private System.Windows.Forms.TextBox textKeycodeFormat;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelPanel3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelDrop;
         private System.Windows.Forms.TextBox textSplitCode;
@@ -474,6 +499,8 @@
         private System.Windows.Forms.TextBox textBadLongName;
         private System.Windows.Forms.Button buttonViewAll;
         private System.Windows.Forms.ProgressBar progressBarGeneral;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label labelPanel4;
     }
 }
 

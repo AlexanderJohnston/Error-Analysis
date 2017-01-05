@@ -59,7 +59,7 @@ namespace WindowsFormsApplication1
             textIMBMax.Text = checkIMBMax.ToString();
             int checkLongNameMatches = ErrorChecking.CheckLongName(table1500Layout);
             textBadLongName.Text = checkLongNameMatches.ToString();
-            
+
             // Display the table.
             return table1500Layout;
 
@@ -102,7 +102,7 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("Your selected file does not exist.", "File Error");
             }
 
-            
+
 
             // End Method.
         }
@@ -276,6 +276,60 @@ namespace WindowsFormsApplication1
             }
         }
 
+        private void textIMBNull_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textIMBNull.Text.ToString() != "0" && textIMBNull.Text.ToString() != null)
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
+
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsIMBNull(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
+        private void textIMBUnique_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textIMBUnique.Text.ToString() != "0" && textIMBUnique.Text.ToString() != null)
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
+
+                // Send the data table. Store index in return as a list.
+                List<string> foundRecords = new List<string>();
+                foundRecords = ErrorChecking.DetailsDuplicates(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(row.Field<string>("IMB")))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
         // End Class.
     }
 
@@ -285,7 +339,7 @@ namespace WindowsFormsApplication1
     /// </summary>
     public class ErrorChecking
     {
-    
+
         /// <summary>
         /// Construct a new data table with the 1500 byte Engage layout.
         /// </summary>
@@ -392,9 +446,9 @@ namespace WindowsFormsApplication1
             int i = 0;
 
             // Iterate over each row, checking the length of the Finder Number (ID) column.
-            foreach(DataRow row in currentDataFile.Rows)
+            foreach (DataRow row in currentDataFile.Rows)
             {
-                if ( row["Finder_No"].ToString().Length != 11)
+                if (row["Finder_No"].ToString().Length != 11)
                 {
                     i++;
                 }
@@ -404,7 +458,7 @@ namespace WindowsFormsApplication1
         }
 
         public static int CheckDuplicates(DataTable currentDataFile)
-        { 
+        {
             // Use LINQ to group the duplicates into a list.
             var duplicateIDs = currentDataFile.AsEnumerable().GroupBy(r => r[38]).Where(gr => gr.Count() > 1).ToList();
             return duplicateIDs.Count();
@@ -421,7 +475,7 @@ namespace WindowsFormsApplication1
 
             // End Method.
         }
-        
+
         public static int CheckKeycodeDropSplit(DataTable currentDataFile)
         {
             /* Initialize a counter to store our bad format Keycodes.
@@ -579,7 +633,7 @@ namespace WindowsFormsApplication1
             return i;
         }
 
-        public static List<int> DetailsLongName (DataTable currentDataFile)
+        public static List<int> DetailsLongName(DataTable currentDataFile)
         {
             // List to hold the indexes that we find.
             List<int> indexBadNames = new List<int>();
@@ -590,7 +644,7 @@ namespace WindowsFormsApplication1
             var badFirstNames = currentDataFile.AsEnumerable()
                 .Select((r, i) => new { i, r })
                 .Where(f =>
-                f.r.Field<string>("Long_Name") != null && 
+                f.r.Field<string>("Long_Name") != null &&
                 f.r.Field<string>("First_Name") != null &&
                 !f.r.Field<string>("Long_Name").Contains(f.r.Field<string>("First_Name"))
                 )
@@ -601,7 +655,7 @@ namespace WindowsFormsApplication1
             return indexBadNames;
         }
 
-        public static List<string> DetailsDuplicates (DataTable currentDataFile)
+        public static List<string> DetailsDuplicates(DataTable currentDataFile)
         {
             // List to hold the indexes that we find.
             List<string> indexDupeIDs = new List<string>();
@@ -673,6 +727,41 @@ namespace WindowsFormsApplication1
             indexBadLength.AddRange(indexesFound);
 
             return indexBadLength;
+        }
+
+        public static List<int> DetailsIMBNull(DataTable currentDataFile)
+        {
+            // Initialize a new list to hold the indexes.
+            List<int> indexBadLength = new List<int>();
+
+            // Use LINQ to find the null barcodes.
+            var indexesFound = currentDataFile.AsEnumerable()
+                .Select((r, i) => new { i, r })
+                .Where(f => f.r.Field<string>("IMB").ToString() == null)
+                .Select(r => r.i);
+
+            indexBadLength.AddRange(indexesFound);
+
+            return indexBadLength;
+        }
+
+        public static List<string> DetailsIMBDuplicate(DataTable currentDataFile)
+        {
+            // List to hold the indexes that we find.
+            List<string> indexDupeIDs = new List<string>();
+
+            // Return the record number of any matching the condition.
+            // Select has an overload which allows a second input for the index.
+            // Then simply check for where the conditions match and return the index.
+            var duplicateIDs = currentDataFile.AsEnumerable()
+                .Select((r, i) => new { i, r })
+                .GroupBy(f => f.r.Field<string>("IMB"))
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key)
+                .ToList();
+
+            indexDupeIDs.AddRange(duplicateIDs);
+            return indexDupeIDs;
         }
 
         // End Class.
