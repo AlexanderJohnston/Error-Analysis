@@ -62,6 +62,11 @@ namespace WindowsFormsApplication1
             textIMBMax.Text = checkIMBMax.ToString();
             int checkLongNameMatches = ErrorChecking.CheckLongName(table1500Layout);
             textBadLongName.Text = checkLongNameMatches.ToString();
+            string checkIMBSeqStart = ErrorChecking.CheckIMBSequenceMinimum(table1500Layout);
+            textIMBSequenceStart.Text = checkIMBSeqStart.ToString();
+            string checkIMBSeqEnd = ErrorChecking.CheckIMBSequenceMaximum(table1500Layout);
+            textIMBSequenceEnd.Text = checkIMBSeqEnd.ToString();
+
 
             // Display the table.
             return table1500Layout;
@@ -621,6 +626,48 @@ namespace WindowsFormsApplication1
                 .Aggregate((pre, cur) => pre > cur ? pre : cur);
 
             return lengthIMBMax;
+        }
+
+        public static string CheckIMBSequenceMinimum(DataTable currentDataFile)
+        {
+            // Initialize a string for return.
+            string foundMinimum = null;
+
+            var minimumSequence = currentDataFile.AsEnumerable()
+                // Get the sequence numbers as an integer, from bytes 11 to 19)
+                .Select(r => Convert.ToInt32(r.Field<string>("IMB").Substring(11, 9)))
+                // Map to a list for Aggregate.
+                .ToList()
+                // Compare the first two results, then c ompare the comparison to the next result : iterate until final answer.
+                .Aggregate((pre, cur) => pre < cur ? pre : cur);
+
+            // 0-fill the integer back into a string. 
+            // Select a substring which is 9 digits long starting at the right side.
+            // Adding 8 because that's the length of the 0 fill constant.
+            foundMinimum = ("00000000" + minimumSequence.ToString()).Substring(minimumSequence.ToString().Length + 8 - 9,9);
+
+            return foundMinimum;
+        }
+        
+        public static string CheckIMBSequenceMaximum(DataTable currentDataFile)
+        {
+            // Initialize a string for return.
+            string foundMaximum = null;
+
+            var maximumSequence = currentDataFile.AsEnumerable()
+                // Get the sequence numbers as an integer, from bytes 11 to 19)
+                .Select(r => Convert.ToInt32(r.Field<string>("IMB").Substring(11, 9)))
+                // Map to a list for Aggregate.
+                .ToList()
+                // Compare the first two results, then c ompare the comparison to the next result : iterate until final answer.
+                .Aggregate((pre, cur) => pre > cur ? pre : cur);
+
+            // 0-fill the integer back into a string. 
+            // Select a substring which is 9 digits long starting at the right side.
+            // Adding 8 because that's the length of the 0 fill constant.
+            foundMaximum = ("00000000" + maximumSequence.ToString()).Substring(maximumSequence.ToString().Length + 8 - 9, 9);
+
+            return foundMaximum;
         }
 
         public static int CheckLongName(DataTable currentDataFile)
