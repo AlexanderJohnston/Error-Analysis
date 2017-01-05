@@ -133,13 +133,21 @@ namespace WindowsFormsApplication1
 
         }
 
+        private void buttonViewAll_Click(object sender, EventArgs e)
+        {
+            // Set the gridview back to the global table.
+            dataGridView1.DataSource = globalTable;
+        }
+        //
+        // Begin the display box on_click codes.
+        //
         private void textBadLongName_Click(object sender, EventArgs e)
         {
             // Check that there are errors to be displayed before proceeding.
             if (textBadLongName.Text.ToString() != "0" && textBadLongName.Text.ToString() != null)
             {
                 // Check the data source before proceeding.
-                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); }
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
 
                 // Send the data table. Store index in return as a list.
                 List<int> foundRecords = new List<int>();
@@ -160,19 +168,13 @@ namespace WindowsFormsApplication1
             }
         }
 
-        private void buttonViewAll_Click(object sender, EventArgs e)
-        {
-            // Set the gridview back to the global table.
-            dataGridView1.DataSource = globalTable;
-        }
-
         private void textFinderDupe_Click(object sender, EventArgs e)
         {
             // Check that an error was found before proceeding.
             if (textFinderDupe.Text.ToString() != "0" && textFinderDupe.Text.ToString() != null)
             {
                 // Check the data source before proceeding.
-                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); }
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
                 // Send the number of duplicate IDs as integer, and the data table. Store it as a list.
                 List<string> foundRecords = new List<string>();
                 foundRecords = ErrorChecking.DetailsDuplicates(dataGridView1.DataSource as DataTable);
@@ -198,7 +200,7 @@ namespace WindowsFormsApplication1
             if (textFinderLength.Text.ToString() != "0" && textFinderLength.Text.ToString() != null)
             {
                 // Check the data source before proceeding.
-                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); }
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
 
                 // Send the data table. Store index in return as a list.
                 List<int> foundRecords = new List<int>();
