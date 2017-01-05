@@ -66,6 +66,8 @@ namespace WindowsFormsApplication1
             textIMBSequenceStart.Text = checkIMBSeqStart.ToString();
             string checkIMBSeqEnd = ErrorChecking.CheckIMBSequenceMaximum(table1500Layout);
             textIMBSequenceEnd.Text = checkIMBSeqEnd.ToString();
+            bool checkIMBSequential = ErrorChecking.CheckIMBSequential(table1500Layout);
+            textIMBSequential.Text = checkIMBSequential.ToString();
 
 
             // Display the table.
@@ -634,6 +636,8 @@ namespace WindowsFormsApplication1
             string foundMinimum = null;
 
             var minimumSequence = currentDataFile.AsEnumerable()
+                // Discard bad IMB numbers.
+                .Where(r => r.Field<string>("IMB").Length == 31)
                 // Get the sequence numbers as an integer, from bytes 11 to 19)
                 .Select(r => Convert.ToInt32(r.Field<string>("IMB").Substring(11, 9)))
                 // Map to a list for Aggregate.
@@ -655,6 +659,8 @@ namespace WindowsFormsApplication1
             string foundMaximum = null;
 
             var maximumSequence = currentDataFile.AsEnumerable()
+                // Discard bad IMB numbers.
+                .Where(r => r.Field<string>("IMB").Length == 31)
                 // Get the sequence numbers as an integer, from bytes 11 to 19)
                 .Select(r => Convert.ToInt32(r.Field<string>("IMB").Substring(11, 9)))
                 // Map to a list for Aggregate.
@@ -668,6 +674,29 @@ namespace WindowsFormsApplication1
             foundMaximum = ("00000000" + maximumSequence.ToString()).Substring(maximumSequence.ToString().Length + 8 - 9, 9);
 
             return foundMaximum;
+        }
+
+        public static bool CheckIMBSequential(DataTable currentDataFile)
+        {
+            // Get our sequence numbers into list format as integer.
+            var dataAsList = currentDataFile.Rows.OfType<DataRow>()
+                // Discard bad IMB numbers.
+                .Where(r => r.Field<string>("IMB").Length == 31)
+                .Select(r => Convert.ToInt32(r.Field<string>("IMB").Substring(11, 9)))
+                .ToList<int>();
+            // Make sure that our sequence numbers are in order by generating a new range based on min & count.
+            bool sequentialCheck = Enumerable
+                // Call the Enumerable as a range.
+                .Range(
+                // Define the minimum of the range to be minimum of the "Seq" field on table.
+                dataAsList.Min(),
+                // An iteration of count equal to the total items on the list.
+                dataAsList.Count()
+                       )
+                // And check that this newly generated sequence matches the table.
+                .SequenceEqual(dataAsList);
+
+            return sequentialCheck;
         }
 
         public static int CheckLongName(DataTable currentDataFile)

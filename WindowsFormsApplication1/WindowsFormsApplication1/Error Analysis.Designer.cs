@@ -186,6 +186,7 @@
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.labelPanel1);
             this.panel1.Controls.Add(this.labelFinderLength);
             this.panel1.Controls.Add(this.labelFinderDupe);
@@ -198,6 +199,7 @@
             // 
             // panel2
             // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.labelPanel2);
             this.panel2.Controls.Add(this.labelKeycodeLength);
             this.panel2.Controls.Add(this.labelKeycodeFormat);
@@ -253,6 +255,7 @@
             // 
             // panel3
             // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.textIMBMatchData);
             this.panel3.Controls.Add(this.labelIMBAccurate);
             this.panel3.Controls.Add(this.textIMBSequential);
@@ -278,7 +281,7 @@
             // labelPanel3
             // 
             this.labelPanel3.AutoSize = true;
-            this.labelPanel3.Location = new System.Drawing.Point(67, 3);
+            this.labelPanel3.Location = new System.Drawing.Point(144, 3);
             this.labelPanel3.Name = "labelPanel3";
             this.labelPanel3.Size = new System.Drawing.Size(47, 13);
             this.labelPanel3.TabIndex = 18;
@@ -412,12 +415,13 @@
             // 
             // panel4
             // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.labelPanel4);
             this.panel4.Controls.Add(this.labelLongName);
             this.panel4.Controls.Add(this.textBadLongName);
-            this.panel4.Location = new System.Drawing.Point(809, 87);
+            this.panel4.Location = new System.Drawing.Point(739, 87);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(318, 118);
+            this.panel4.Size = new System.Drawing.Size(318, 152);
             this.panel4.TabIndex = 26;
             // 
             // labelPanel4
