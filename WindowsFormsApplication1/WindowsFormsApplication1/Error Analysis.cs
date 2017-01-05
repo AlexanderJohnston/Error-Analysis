@@ -34,6 +34,9 @@ namespace WindowsFormsApplication1
             // Build a data table to store our incoming file using the 1500 schema which is defined in the method.
             DataTable table1500Layout = ErrorChecking.ConstructTable1500(selectedFile);
 
+            // Drop out if the table couldn't be constructed properly, due to header mis-match.
+            if (table1500Layout.Rows.Count == 0) { return table1500Layout; }
+
             // Begin Error Analysis
             int badFinder = ErrorChecking.CheckFinder(table1500Layout);
             textFinderLength.Text = badFinder.ToString();
@@ -91,10 +94,14 @@ namespace WindowsFormsApplication1
                 // Initialize table.
                 DataTable currentDataTable = new DataTable();
                 currentDataTable = EntryPoint(selectedFile);
+
+                // Drop out if the table came back null.
+                if (currentDataTable.Rows.Count == 0) { MessageBox.Show("The header on your table is not Engage 1500 Layout.", "Header Mis-match!"); return; }
+
+                // Save our global table.
                 globalTable = currentDataTable;
-                // Set a View to be filtered later on. Faster than hiding specific rows.
-                //DataView currentView = currentDataTable.DefaultView;
-                //dataGridView1.DataSource = currentView; // Table can now be filtered.
+                
+                //Display the table.
                 dataGridView1.DataSource = currentDataTable;
             }
             else
@@ -306,7 +313,7 @@ namespace WindowsFormsApplication1
         private void textIMBUnique_Click(object sender, EventArgs e)
         {
             // Check that an error was found before proceeding.
-            if (textIMBUnique.Text.ToString() != "True" && textIMBUnique.Text.ToString() != null)
+            if (textIMBUnique.Text.ToString() != "False" && textIMBUnique.Text.ToString() != null)
             {
                 // Check the data source before proceeding.
                 if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
@@ -345,6 +352,8 @@ namespace WindowsFormsApplication1
         /// </summary>
         public static DataTable ConstructTable1500(string selectedFile)
         {
+            // Define a string for testing the header.
+            string firstLine = null;
             // Define a temporary table for later.
             DataTable newTable1500Import = new DataTable();
             // Define the columns in 1500 byte layout for Engage.
@@ -412,6 +421,22 @@ namespace WindowsFormsApplication1
             DataTable newTable1500 = new DataTable("1500 Layout Analysis");
             newTable1500.Columns.AddRange(newCols);
 
+            // Check that the data file is in 1500 layout.
+            try
+            {
+                using (StreamReader reader = new StreamReader(selectedFile))
+                {
+                    firstLine = reader.ReadLine() ?? "";
+                }
+
+            }
+            catch (Exception ex) { MessageBox.Show("File header could not be read.\r\n" + ex, "Header Error!"); }
+            
+            if (firstLine != @"""Seq"",""Title"",""First Name"",""Middle Name"",""Last Name"",""Suffix"",""Long Name"",""Drop"",""Split"",""House (H)/Prospect (P)"",""Ref#"",""DPC"",""Dear Sal"",""Salutation2"",""Salutation3"",""Company"",""Secondary Addr"",""Primary Addr"",""City"",""ST"",""Zip"",""Dash"",""Zip4"",""MRG Date"",""MRG Amount"",""MRG Month"",""HPC Date"",""HPC Amount"",""First Date"",""First Year"",""Amt 1"",""Amt 2"",""Amt 3"",""Amt 4"",""Amt 5"",""Amount"",""OEL"",""Keycode"",""Finder No"",""Dist"",""Congressmen"",""Senator 1"",""Senator 2"",""County"",""Governor"",""Full State"",""IMB"",""File Type"",""Priority"",""FILENAME"",""Engage Use"",""Client1"",""Client2"",""Client3"",""Client4"",""DPV Error"",""NCOA Mflag"",""NCOA FN""")
+            {
+                DataTable failedTable = new DataTable();
+                return failedTable;
+            }
             // Import the data.
             try
             {
@@ -562,9 +587,9 @@ namespace WindowsFormsApplication1
             if (dupeIMB)
             {
                 // There are duplicates.
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         public static int CheckIMBMinLength(DataTable currentDataFile)
