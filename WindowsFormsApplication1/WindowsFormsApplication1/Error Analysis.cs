@@ -11,11 +11,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace WindowsFormsApplication1
 {
+
     public partial class ErrorAnalysis : Form
     {
+        public static DataTable globalTable = new DataTable();
+
         public ErrorAnalysis()
         {
             InitializeComponent();
@@ -84,7 +88,14 @@ namespace WindowsFormsApplication1
             string selectedFile = textFilePath.Text.ToString();
             if (File.Exists(selectedFile) == true)
             {
-                dataGridView1.DataSource = EntryPoint(selectedFile);
+                // Initialize table.
+                DataTable currentDataTable = new DataTable();
+                currentDataTable = EntryPoint(selectedFile);
+                globalTable = currentDataTable;
+                // Set a View to be filtered later on. Faster than hiding specific rows.
+                //DataView currentView = currentDataTable.DefaultView;
+                //dataGridView1.DataSource = currentView; // Table can now be filtered.
+                dataGridView1.DataSource = currentDataTable;
             }
             else
             {
@@ -129,25 +140,24 @@ namespace WindowsFormsApplication1
             foundRecords = ErrorChecking.DetailsLongName(dataGridView1.DataSource as DataTable, 
                 Convert.ToInt32(textBadLongName.Text.ToString()));
 
-            // Set up a CurrencyManager to suspend binding for the upcoming conditional loop.
-            CurrencyManager currencyManager1 = (CurrencyManager)BindingContext[dataGridView1.DataSource];
-            currencyManager1.SuspendBinding();
+            // Set up the progress bar with off-by-one due to zero based iteration.
+            progressBarGeneral.Maximum = (dataGridView1.DataSource as DataTable).Rows.Count -1;
+            progressBarGeneral.Minimum = 0;
 
             // Iterate over the data table to hide rows that do not appear in the list.
-            for (int i = 0; i < (dataGridView1.DataSource as DataTable).Rows.Count; i++)
-            {
-                // If the current row isn't found.
-                if ( !foundRecords.Contains(i) )
-                {
-                    // Then hide it by suspending the binding of the table.
-                    
-                    dataGridView1.Rows[i].Visible = false;
-                    
-                }
-            }
+            var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                .Where((row, index) => foundRecords.Contains(index))
+                .CopyToDataTable();
 
-            // Resume data binding.
-            currencyManager1.ResumeBinding();
+            // Make a new dataview based on the query. Set the datasource to the new view.
+            DataView filterView = filterQuery.AsDataView();
+            dataGridView1.DataSource = filterView;
+        }
+
+        private void buttonViewAll_Click(object sender, EventArgs e)
+        {
+            // Set the gridview back to the global table.
+            dataGridView1.DataSource = globalTable;
         }
 
         // End Class.

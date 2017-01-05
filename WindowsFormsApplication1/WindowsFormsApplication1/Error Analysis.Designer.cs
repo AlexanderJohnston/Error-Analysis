@@ -379,6 +379,7 @@
             this.buttonViewAll.TabIndex = 33;
             this.buttonViewAll.Text = "View All";
             this.buttonViewAll.UseVisualStyleBackColor = true;
+            this.buttonViewAll.Click += new System.EventHandler(this.buttonViewAll_Click);
             // 
             // progressBarGeneral
             // 
