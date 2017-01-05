@@ -121,6 +121,7 @@
             this.textFinderDupe.Name = "textFinderDupe";
             this.textFinderDupe.Size = new System.Drawing.Size(68, 20);
             this.textFinderDupe.TabIndex = 5;
+            this.textFinderDupe.Click += new System.EventHandler(this.textFinderDupe_Click);
             // 
             // textFinderLength
             // 
@@ -128,6 +129,7 @@
             this.textFinderLength.Name = "textFinderLength";
             this.textFinderLength.Size = new System.Drawing.Size(68, 20);
             this.textFinderLength.TabIndex = 6;
+            this.textFinderLength.Click += new System.EventHandler(this.textFinderLength_Click);
             // 
             // textSequential
             // 

@@ -135,29 +135,89 @@ namespace WindowsFormsApplication1
 
         private void textBadLongName_Click(object sender, EventArgs e)
         {
-            // Send the number of bad names as integer, and the data table. Store it as a list.
-            List<int> foundRecords = new List<int>();
-            foundRecords = ErrorChecking.DetailsLongName(dataGridView1.DataSource as DataTable, 
-                Convert.ToInt32(textBadLongName.Text.ToString()));
+            // Check that there are errors to be displayed before proceeding.
+            if (textBadLongName.Text.ToString() != "0" && textBadLongName.Text.ToString() != null)
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); }
 
-            // Set up the progress bar with off-by-one due to zero based iteration.
-            progressBarGeneral.Maximum = (dataGridView1.DataSource as DataTable).Rows.Count -1;
-            progressBarGeneral.Minimum = 0;
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsLongName(dataGridView1.DataSource as DataTable);
 
-            // Iterate over the data table to hide rows that do not appear in the list.
-            var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
-                .Where((row, index) => foundRecords.Contains(index))
-                .CopyToDataTable();
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
+                    .CopyToDataTable();
 
-            // Make a new dataview based on the query. Set the datasource to the new view.
-            DataView filterView = filterQuery.AsDataView();
-            dataGridView1.DataSource = filterView;
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
         }
 
         private void buttonViewAll_Click(object sender, EventArgs e)
         {
             // Set the gridview back to the global table.
             dataGridView1.DataSource = globalTable;
+        }
+
+        private void textFinderDupe_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textFinderDupe.Text.ToString() != "0" && textFinderDupe.Text.ToString() != null)
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); }
+                // Send the number of duplicate IDs as integer, and the data table. Store it as a list.
+                List<string> foundRecords = new List<string>();
+                foundRecords = ErrorChecking.DetailsDuplicates(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(row.Field<string>("Finder_No")))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
+        private void textFinderLength_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textFinderLength.Text.ToString() != "0" && textFinderLength.Text.ToString() != null)
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); }
+
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsIDLength(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+
         }
 
         // End Class.
@@ -463,7 +523,7 @@ namespace WindowsFormsApplication1
             return i;
         }
 
-        public static List<int> DetailsLongName (DataTable currentDataFile, int totalBadNames)
+        public static List<int> DetailsLongName (DataTable currentDataFile)
         {
             // List to hold the indexes that we find.
             List<int> indexBadNames = new List<int>();
@@ -479,11 +539,46 @@ namespace WindowsFormsApplication1
                 !f.r.Field<string>("Long_Name").Contains(f.r.Field<string>("First_Name"))
                 )
                 .Select(r => r.i);
-                indexBadNames.AddRange(badFirstNames);
+
+            indexBadNames.AddRange(badFirstNames);
 
             return indexBadNames;
         }
 
+        public static List<string> DetailsDuplicates (DataTable currentDataFile)
+        {
+            // List to hold the indexes that we find.
+            List<string> indexDupeIDs = new List<string>();
+
+            // Return the record number of any matching the condition.
+            // Select has an overload which allows a second input for the index.
+            // Then simply check for where the conditions match and return the index.
+            var duplicateIDs = currentDataFile.AsEnumerable()
+                .Select((r, i) => new { i, r })
+                .GroupBy(f => f.r.Field<string>("Finder_No"))
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key)
+                .ToList();
+
+            indexDupeIDs.AddRange(duplicateIDs);
+            return indexDupeIDs;
+        }
+
+        public static List<int> DetailsIDLength(DataTable currentDataFile)
+        {
+            // Initialize a new list to hold the indexes.
+            List<int> indexBadLength = new List<int>();
+
+            // Use LINQ to locate the fields which have short ID numbers.
+            var indexesFound = currentDataFile.AsEnumerable()
+                .Select((r, i) => new { i, r })
+                .Where(f => f.r.Field<string>("Finder_No").Length != 11)
+                .Select(r => r.i);
+
+            indexBadLength.AddRange(indexesFound);
+
+            return indexBadLength;
+        }
 
         // End Class.
     }
