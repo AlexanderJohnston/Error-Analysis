@@ -66,6 +66,7 @@
             this.buttonViewAll = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.labelPanel4 = new System.Windows.Forms.Label();
+            this.labelRecordNum = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -91,7 +92,7 @@
             // 
             // buttonSelectFile
             // 
-            this.buttonSelectFile.Location = new System.Drawing.Point(333, 63);
+            this.buttonSelectFile.Location = new System.Drawing.Point(333, 62);
             this.buttonSelectFile.Name = "buttonSelectFile";
             this.buttonSelectFile.Size = new System.Drawing.Size(86, 22);
             this.buttonSelectFile.TabIndex = 2;
@@ -101,7 +102,7 @@
             // 
             // buttonAnalyze
             // 
-            this.buttonAnalyze.Location = new System.Drawing.Point(425, 63);
+            this.buttonAnalyze.Location = new System.Drawing.Point(425, 62);
             this.buttonAnalyze.Name = "buttonAnalyze";
             this.buttonAnalyze.Size = new System.Drawing.Size(86, 22);
             this.buttonAnalyze.TabIndex = 3;
@@ -381,7 +382,7 @@
             // 
             // buttonViewAll
             // 
-            this.buttonViewAll.Location = new System.Drawing.Point(736, 232);
+            this.buttonViewAll.Location = new System.Drawing.Point(219, 62);
             this.buttonViewAll.Name = "buttonViewAll";
             this.buttonViewAll.Size = new System.Drawing.Size(108, 22);
             this.buttonViewAll.TabIndex = 33;
@@ -408,11 +409,21 @@
             this.labelPanel4.TabIndex = 18;
             this.labelPanel4.Text = "Names";
             // 
+            // labelRecordNum
+            // 
+            this.labelRecordNum.AutoSize = true;
+            this.labelRecordNum.Location = new System.Drawing.Point(15, 236);
+            this.labelRecordNum.Name = "labelRecordNum";
+            this.labelRecordNum.Size = new System.Drawing.Size(59, 13);
+            this.labelRecordNum.TabIndex = 34;
+            this.labelRecordNum.Text = "Records: 0";
+            // 
             // ErrorAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1195, 639);
+            this.Controls.Add(this.labelRecordNum);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textSplitCode);
@@ -491,6 +502,7 @@
         private System.Windows.Forms.Button buttonViewAll;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label labelPanel4;
+        private System.Windows.Forms.Label labelRecordNum;
     }
 }
 

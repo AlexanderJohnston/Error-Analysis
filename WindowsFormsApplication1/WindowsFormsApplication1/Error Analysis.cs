@@ -103,6 +103,9 @@ namespace WindowsFormsApplication1
                 
                 //Display the table.
                 dataGridView1.DataSource = currentDataTable;
+
+                // Set the record number label.
+                labelRecordNum.Text = "Records: " + currentDataTable.Rows.Count; 
             }
             else
             {
@@ -587,9 +590,9 @@ namespace WindowsFormsApplication1
             if (dupeIMB)
             {
                 // There are duplicates.
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public static int CheckIMBMinLength(DataTable currentDataFile)
