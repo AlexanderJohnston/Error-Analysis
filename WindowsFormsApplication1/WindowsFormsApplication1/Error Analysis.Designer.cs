@@ -33,18 +33,38 @@
             this.buttonSelectFile = new System.Windows.Forms.Button();
             this.buttonAnalyze = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textFinderDupe = new System.Windows.Forms.TextBox();
+            this.textFinderLength = new System.Windows.Forms.TextBox();
+            this.textSequential = new System.Windows.Forms.TextBox();
+            this.textIMBNull = new System.Windows.Forms.TextBox();
+            this.labelFinderDupe = new System.Windows.Forms.Label();
+            this.labelFinderLength = new System.Windows.Forms.Label();
+            this.labelFinderNumber = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.labelKeycode = new System.Windows.Forms.Label();
+            this.labelKeycodeLength = new System.Windows.Forms.Label();
+            this.labelKeycodeFormat = new System.Windows.Forms.Label();
+            this.textKeycodeLength = new System.Windows.Forms.TextBox();
+            this.textKeycodeFormat = new System.Windows.Forms.TextBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.labelDrop = new System.Windows.Forms.Label();
+            this.textBadSplit = new System.Windows.Forms.TextBox();
+            this.textBadDrop = new System.Windows.Forms.TextBox();
+            this.labelSequential = new System.Windows.Forms.Label();
+            this.textIMBUnique = new System.Windows.Forms.TextBox();
+            this.labelIMBNull = new System.Windows.Forms.Label();
+            this.labelIMBDupe = new System.Windows.Forms.Label();
+            this.labelIMBMin = new System.Windows.Forms.Label();
+            this.labelIMBMax = new System.Windows.Forms.Label();
+            this.textIMBMin = new System.Windows.Forms.TextBox();
+            this.textIMBMax = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // textFilePath
@@ -91,99 +111,263 @@
             this.dataGridView1.Size = new System.Drawing.Size(808, 253);
             this.dataGridView1.TabIndex = 4;
             // 
-            // textBox1
+            // textFinderDupe
             // 
-            this.textBox1.Location = new System.Drawing.Point(90, 185);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(68, 20);
-            this.textBox1.TabIndex = 5;
+            this.textFinderDupe.Location = new System.Drawing.Point(89, 39);
+            this.textFinderDupe.Name = "textFinderDupe";
+            this.textFinderDupe.Size = new System.Drawing.Size(68, 20);
+            this.textFinderDupe.TabIndex = 5;
             // 
-            // textBox2
+            // textFinderLength
             // 
-            this.textBox2.Location = new System.Drawing.Point(164, 185);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(68, 20);
-            this.textBox2.TabIndex = 6;
+            this.textFinderLength.Location = new System.Drawing.Point(89, 70);
+            this.textFinderLength.Name = "textFinderLength";
+            this.textFinderLength.Size = new System.Drawing.Size(68, 20);
+            this.textFinderLength.TabIndex = 6;
             // 
-            // textBox3
+            // textSequential
             // 
-            this.textBox3.Location = new System.Drawing.Point(238, 185);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(68, 20);
-            this.textBox3.TabIndex = 7;
+            this.textSequential.Location = new System.Drawing.Point(644, 77);
+            this.textSequential.Name = "textSequential";
+            this.textSequential.Size = new System.Drawing.Size(68, 20);
+            this.textSequential.TabIndex = 14;
             // 
-            // textBox4
+            // textIMBNull
             // 
-            this.textBox4.Location = new System.Drawing.Point(312, 185);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(68, 20);
-            this.textBox4.TabIndex = 8;
+            this.textIMBNull.Location = new System.Drawing.Point(644, 103);
+            this.textIMBNull.Name = "textIMBNull";
+            this.textIMBNull.Size = new System.Drawing.Size(68, 20);
+            this.textIMBNull.TabIndex = 15;
             // 
-            // textBox5
+            // labelFinderDupe
             // 
-            this.textBox5.Location = new System.Drawing.Point(386, 185);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(68, 20);
-            this.textBox5.TabIndex = 9;
+            this.labelFinderDupe.AutoSize = true;
+            this.labelFinderDupe.Location = new System.Drawing.Point(26, 42);
+            this.labelFinderDupe.Name = "labelFinderDupe";
+            this.labelFinderDupe.Size = new System.Drawing.Size(57, 13);
+            this.labelFinderDupe.TabIndex = 16;
+            this.labelFinderDupe.Text = "Duplicates";
             // 
-            // textBox6
+            // labelFinderLength
             // 
-            this.textBox6.Location = new System.Drawing.Point(460, 185);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(68, 20);
-            this.textBox6.TabIndex = 10;
+            this.labelFinderLength.AutoSize = true;
+            this.labelFinderLength.Location = new System.Drawing.Point(8, 77);
+            this.labelFinderLength.Name = "labelFinderLength";
+            this.labelFinderLength.Size = new System.Drawing.Size(75, 13);
+            this.labelFinderLength.TabIndex = 17;
+            this.labelFinderLength.Text = "Wrong Length";
             // 
-            // textBox7
+            // labelFinderNumber
             // 
-            this.textBox7.Location = new System.Drawing.Point(534, 185);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(68, 20);
-            this.textBox7.TabIndex = 11;
+            this.labelFinderNumber.AutoSize = true;
+            this.labelFinderNumber.Location = new System.Drawing.Point(99, 18);
+            this.labelFinderNumber.Name = "labelFinderNumber";
+            this.labelFinderNumber.Size = new System.Drawing.Size(46, 13);
+            this.labelFinderNumber.TabIndex = 18;
+            this.labelFinderNumber.Text = "Finder #";
             // 
-            // textBox8
+            // panel1
             // 
-            this.textBox8.Location = new System.Drawing.Point(608, 185);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(68, 20);
-            this.textBox8.TabIndex = 12;
+            this.panel1.Controls.Add(this.labelFinderNumber);
+            this.panel1.Controls.Add(this.labelFinderLength);
+            this.panel1.Controls.Add(this.labelFinderDupe);
+            this.panel1.Controls.Add(this.textFinderLength);
+            this.panel1.Controls.Add(this.textFinderDupe);
+            this.panel1.Location = new System.Drawing.Point(1, 86);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(182, 118);
+            this.panel1.TabIndex = 19;
             // 
-            // textBox9
+            // panel2
             // 
-            this.textBox9.Location = new System.Drawing.Point(682, 185);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(68, 20);
-            this.textBox9.TabIndex = 13;
+            this.panel2.Controls.Add(this.labelKeycode);
+            this.panel2.Controls.Add(this.labelKeycodeLength);
+            this.panel2.Controls.Add(this.labelKeycodeFormat);
+            this.panel2.Controls.Add(this.textKeycodeLength);
+            this.panel2.Controls.Add(this.textKeycodeFormat);
+            this.panel2.Location = new System.Drawing.Point(189, 86);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(182, 118);
+            this.panel2.TabIndex = 20;
             // 
-            // textBox10
+            // labelKeycode
             // 
-            this.textBox10.Location = new System.Drawing.Point(756, 185);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(68, 20);
-            this.textBox10.TabIndex = 14;
+            this.labelKeycode.AutoSize = true;
+            this.labelKeycode.Location = new System.Drawing.Point(111, 18);
+            this.labelKeycode.Name = "labelKeycode";
+            this.labelKeycode.Size = new System.Drawing.Size(49, 13);
+            this.labelKeycode.TabIndex = 18;
+            this.labelKeycode.Text = "Keycode";
             // 
-            // textBox11
+            // labelKeycodeLength
             // 
-            this.textBox11.Location = new System.Drawing.Point(830, 185);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(68, 20);
-            this.textBox11.TabIndex = 15;
+            this.labelKeycodeLength.AutoSize = true;
+            this.labelKeycodeLength.Location = new System.Drawing.Point(21, 73);
+            this.labelKeycodeLength.Name = "labelKeycodeLength";
+            this.labelKeycodeLength.Size = new System.Drawing.Size(75, 13);
+            this.labelKeycodeLength.TabIndex = 17;
+            this.labelKeycodeLength.Text = "Wrong Length";
+            // 
+            // labelKeycodeFormat
+            // 
+            this.labelKeycodeFormat.AutoSize = true;
+            this.labelKeycodeFormat.Location = new System.Drawing.Point(6, 42);
+            this.labelKeycodeFormat.Name = "labelKeycodeFormat";
+            this.labelKeycodeFormat.Size = new System.Drawing.Size(90, 13);
+            this.labelKeycodeFormat.TabIndex = 16;
+            this.labelKeycodeFormat.Text = "Wrong Drop/Split";
+            // 
+            // textKeycodeLength
+            // 
+            this.textKeycodeLength.Location = new System.Drawing.Point(102, 70);
+            this.textKeycodeLength.Name = "textKeycodeLength";
+            this.textKeycodeLength.Size = new System.Drawing.Size(68, 20);
+            this.textKeycodeLength.TabIndex = 6;
+            // 
+            // textKeycodeFormat
+            // 
+            this.textKeycodeFormat.Location = new System.Drawing.Point(102, 39);
+            this.textKeycodeFormat.Name = "textKeycodeFormat";
+            this.textKeycodeFormat.Size = new System.Drawing.Size(68, 20);
+            this.textKeycodeFormat.TabIndex = 5;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Controls.Add(this.labelDrop);
+            this.panel3.Controls.Add(this.textBadSplit);
+            this.panel3.Controls.Add(this.textBadDrop);
+            this.panel3.Location = new System.Drawing.Point(377, 87);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(182, 118);
+            this.panel3.TabIndex = 21;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(111, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Drop/Split";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(24, 73);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(72, 13);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Number Splits";
+            // 
+            // labelDrop
+            // 
+            this.labelDrop.AutoSize = true;
+            this.labelDrop.Location = new System.Drawing.Point(21, 42);
+            this.labelDrop.Name = "labelDrop";
+            this.labelDrop.Size = new System.Drawing.Size(75, 13);
+            this.labelDrop.TabIndex = 16;
+            this.labelDrop.Text = "Number Drops";
+            // 
+            // textBadSplit
+            // 
+            this.textBadSplit.Location = new System.Drawing.Point(102, 70);
+            this.textBadSplit.Name = "textBadSplit";
+            this.textBadSplit.Size = new System.Drawing.Size(68, 20);
+            this.textBadSplit.TabIndex = 6;
+            // 
+            // textBadDrop
+            // 
+            this.textBadDrop.Location = new System.Drawing.Point(102, 39);
+            this.textBadDrop.Name = "textBadDrop";
+            this.textBadDrop.Size = new System.Drawing.Size(68, 20);
+            this.textBadDrop.TabIndex = 5;
+            // 
+            // labelSequential
+            // 
+            this.labelSequential.AutoSize = true;
+            this.labelSequential.Location = new System.Drawing.Point(581, 80);
+            this.labelSequential.Name = "labelSequential";
+            this.labelSequential.Size = new System.Drawing.Size(57, 13);
+            this.labelSequential.TabIndex = 22;
+            this.labelSequential.Text = "Sequential";
+            // 
+            // textIMBUnique
+            // 
+            this.textIMBUnique.Location = new System.Drawing.Point(644, 129);
+            this.textIMBUnique.Name = "textIMBUnique";
+            this.textIMBUnique.Size = new System.Drawing.Size(68, 20);
+            this.textIMBUnique.TabIndex = 23;
+            // 
+            // labelIMBNull
+            // 
+            this.labelIMBNull.AutoSize = true;
+            this.labelIMBNull.Location = new System.Drawing.Point(582, 106);
+            this.labelIMBNull.Name = "labelIMBNull";
+            this.labelIMBNull.Size = new System.Drawing.Size(56, 13);
+            this.labelIMBNull.TabIndex = 24;
+            this.labelIMBNull.Text = "Blank IMB";
+            // 
+            // labelIMBDupe
+            // 
+            this.labelIMBDupe.AutoSize = true;
+            this.labelIMBDupe.Location = new System.Drawing.Point(564, 132);
+            this.labelIMBDupe.Name = "labelIMBDupe";
+            this.labelIMBDupe.Size = new System.Drawing.Size(74, 13);
+            this.labelIMBDupe.TabIndex = 25;
+            this.labelIMBDupe.Text = "Duplicate IMB";
+            // 
+            // labelIMBMin
+            // 
+            this.labelIMBMin.AutoSize = true;
+            this.labelIMBMin.Location = new System.Drawing.Point(568, 162);
+            this.labelIMBMin.Name = "labelIMBMin";
+            this.labelIMBMin.Size = new System.Drawing.Size(70, 13);
+            this.labelIMBMin.TabIndex = 26;
+            this.labelIMBMin.Text = "Minimum IMB";
+            // 
+            // labelIMBMax
+            // 
+            this.labelIMBMax.AutoSize = true;
+            this.labelIMBMax.Location = new System.Drawing.Point(565, 188);
+            this.labelIMBMax.Name = "labelIMBMax";
+            this.labelIMBMax.Size = new System.Drawing.Size(73, 13);
+            this.labelIMBMax.TabIndex = 27;
+            this.labelIMBMax.Text = "Maximum IMB";
+            // 
+            // textIMBMin
+            // 
+            this.textIMBMin.Location = new System.Drawing.Point(644, 155);
+            this.textIMBMin.Name = "textIMBMin";
+            this.textIMBMin.Size = new System.Drawing.Size(68, 20);
+            this.textIMBMin.TabIndex = 28;
+            // 
+            // textIMBMax
+            // 
+            this.textIMBMax.Location = new System.Drawing.Point(644, 181);
+            this.textIMBMax.Name = "textIMBMax";
+            this.textIMBMax.Size = new System.Drawing.Size(68, 20);
+            this.textIMBMax.TabIndex = 29;
             // 
             // ErrorAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 525);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.textBox10);
-            this.Controls.Add(this.textBox9);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox7);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textIMBMax);
+            this.Controls.Add(this.textIMBMin);
+            this.Controls.Add(this.labelIMBMax);
+            this.Controls.Add(this.labelIMBMin);
+            this.Controls.Add(this.labelIMBDupe);
+            this.Controls.Add(this.labelIMBNull);
+            this.Controls.Add(this.textIMBUnique);
+            this.Controls.Add(this.labelSequential);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.textIMBNull);
+            this.Controls.Add(this.textSequential);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonAnalyze);
             this.Controls.Add(this.buttonSelectFile);
@@ -192,7 +376,14 @@
             this.KeyPreview = true;
             this.Name = "ErrorAnalysis";
             this.Text = "Error Analysis";
+            this.Load += new System.EventHandler(this.ErrorAnalysis_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,17 +396,34 @@
         private System.Windows.Forms.Button buttonSelectFile;
         private System.Windows.Forms.Button buttonAnalyze;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox textFinderDupe;
+        private System.Windows.Forms.TextBox textFinderLength;
+        private System.Windows.Forms.TextBox textSequential;
+        private System.Windows.Forms.TextBox textIMBNull;
+        private System.Windows.Forms.Label labelFinderDupe;
+        private System.Windows.Forms.Label labelFinderLength;
+        private System.Windows.Forms.Label labelFinderNumber;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label labelKeycode;
+        private System.Windows.Forms.Label labelKeycodeLength;
+        private System.Windows.Forms.Label labelKeycodeFormat;
+        private System.Windows.Forms.TextBox textKeycodeLength;
+        private System.Windows.Forms.TextBox textKeycodeFormat;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelDrop;
+        private System.Windows.Forms.TextBox textBadSplit;
+        private System.Windows.Forms.TextBox textBadDrop;
+        private System.Windows.Forms.Label labelSequential;
+        private System.Windows.Forms.TextBox textIMBUnique;
+        private System.Windows.Forms.Label labelIMBNull;
+        private System.Windows.Forms.Label labelIMBDupe;
+        private System.Windows.Forms.Label labelIMBMin;
+        private System.Windows.Forms.Label labelIMBMax;
+        private System.Windows.Forms.TextBox textIMBMin;
+        private System.Windows.Forms.TextBox textIMBMax;
     }
 }
 

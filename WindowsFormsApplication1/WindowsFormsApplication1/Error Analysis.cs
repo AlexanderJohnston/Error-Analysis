@@ -74,6 +74,11 @@ namespace WindowsFormsApplication1
             }
             return base.ProcessCmdKey(ref message, keys);
         }
+
+        private void ErrorAnalysis_Load(object sender, EventArgs e)
+        {
+
+        }
         // End Class.
     }
 
