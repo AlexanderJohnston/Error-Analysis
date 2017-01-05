@@ -669,9 +669,17 @@ namespace WindowsFormsApplication1
             var badFirstNames = currentDataFile.AsEnumerable()
                 .Select((r, i) => new { i, r })
                 .Where(f =>
-                f.r.Field<string>("Long_Name") != null &&
-                f.r.Field<string>("First_Name") != null &&
-                !f.r.Field<string>("Long_Name").Contains(f.r.Field<string>("First_Name"))
+                    (f.r.Field<string>("Long_Name") != null &&
+                    f.r.Field<string>("First_Name") != null &&
+                    !f.r.Field<string>("Long_Name").Contains(f.r.Field<string>("First_Name") ) 
+                    ) ||
+                    (f.r.Field<string>("Long_Name") != null &&
+                    f.r.Field<string>("First_Name") != null &&
+                    !f.r.Field<string>("Long_Name").Contains(f.r.Field<string>("Middle_Name") )
+                    ) ||
+                    (f.r.Field<string>("Long_Name") != null &&
+                    f.r.Field<string>("First_Name") != null &&
+                    !f.r.Field<string>("Long_Name").Contains(f.r.Field<string>("Last_Name")) )
                 )
                 .Select(r => r.i);
 
