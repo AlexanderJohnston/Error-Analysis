@@ -279,7 +279,7 @@ namespace WindowsFormsApplication1
         private void textIMBNull_Click(object sender, EventArgs e)
         {
             // Check that an error was found before proceeding.
-            if (textIMBNull.Text.ToString() != "0" && textIMBNull.Text.ToString() != null)
+            if (textIMBNull.Text.ToString() != "False" && textIMBNull.Text.ToString() != null)
             {
                 // Check the data source before proceeding.
                 if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
@@ -306,14 +306,14 @@ namespace WindowsFormsApplication1
         private void textIMBUnique_Click(object sender, EventArgs e)
         {
             // Check that an error was found before proceeding.
-            if (textIMBUnique.Text.ToString() != "0" && textIMBUnique.Text.ToString() != null)
+            if (textIMBUnique.Text.ToString() != "True" && textIMBUnique.Text.ToString() != null)
             {
                 // Check the data source before proceeding.
                 if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
 
                 // Send the data table. Store index in return as a list.
                 List<string> foundRecords = new List<string>();
-                foundRecords = ErrorChecking.DetailsDuplicates(dataGridView1.DataSource as DataTable);
+                foundRecords = ErrorChecking.DetailsIMBDuplicate(dataGridView1.DataSource as DataTable);
 
                 // Iterate over the data table to hide rows that do not appear in the list.
                 var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
@@ -547,7 +547,7 @@ namespace WindowsFormsApplication1
         {
             // Call the data table's IMB column and look for null values using LINQ.
             var checkNullExists = currentDataFile.Rows.OfType<DataRow>()
-                .Where(r => r.Field<string>("IMB") == null).ToList();
+                .Where(r => r.Field<string>("IMB").ToString() == "");
 
             return checkNullExists.Count() > 0;
         }
@@ -737,7 +737,7 @@ namespace WindowsFormsApplication1
             // Use LINQ to find the null barcodes.
             var indexesFound = currentDataFile.AsEnumerable()
                 .Select((r, i) => new { i, r })
-                .Where(f => f.r.Field<string>("IMB").ToString() == null)
+                .Where(f => f.r.Field<string>("IMB").ToString() == "")
                 .Select(r => r.i);
 
             indexBadLength.AddRange(indexesFound);
