@@ -222,6 +222,60 @@ namespace WindowsFormsApplication1
 
         }
 
+        private void textKeycodeFormat_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textKeycodeFormat.Text.ToString() != "0" && textKeycodeFormat.Text.ToString() != null)
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
+
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsKeycodeFormat(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
+        private void textKeycodeLength_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textKeycodeLength.Text.ToString() != "0" && textKeycodeLength.Text.ToString() != null)
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
+
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsKeycodeLength(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
         // End Class.
     }
 
@@ -575,6 +629,45 @@ namespace WindowsFormsApplication1
             var indexesFound = currentDataFile.AsEnumerable()
                 .Select((r, i) => new { i, r })
                 .Where(f => f.r.Field<string>("Finder_No").Length != 11)
+                .Select(r => r.i);
+
+            indexBadLength.AddRange(indexesFound);
+
+            return indexBadLength;
+        }
+
+        public static List<int> DetailsKeycodeFormat(DataTable currentDataFile)
+        {
+            // Initialize a new list to hold the indexes.
+            List<int> indexBadLength = new List<int>();
+
+            /* Initialize a var to store our bad format Keycodes.
+            *  Find a new variable which is a list based on
+            *  a string column name "Keycode" from byte 9 to 11,
+            *  when it is not equal to a string column "Drop",
+            *  from byte 2 to 2, added to the string column "Split".
+            */
+            var indexesFound = currentDataFile.AsEnumerable()
+                .Select((r, i) => new { i, r })
+                .Where(f => f.r.Field<string>("Keycode").Substring(9, 2)
+                != f.r.Field<string>("Keycode").Substring(1, 1)
+                + f.r.Field<string>("Keycode").ToString())
+                .Select(r => r.i);
+
+            indexBadLength.AddRange(indexesFound);
+
+            return indexBadLength;
+        }
+
+        public static List<int> DetailsKeycodeLength(DataTable currentDataFile)
+        {
+            // Initialize a new list to hold the indexes.
+            List<int> indexBadLength = new List<int>();
+
+            // Use LINQ to find the Keycodes of incorrect length.
+            var indexesFound = currentDataFile.AsEnumerable()
+                .Select((r, i) => new { i, r })
+                .Where(f => f.r.Field<string>("Keycode").Length != 11)
                 .Select(r => r.i);
 
             indexBadLength.AddRange(indexesFound);

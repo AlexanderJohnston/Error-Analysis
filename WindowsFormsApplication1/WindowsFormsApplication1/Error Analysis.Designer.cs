@@ -229,6 +229,7 @@
             this.textKeycodeLength.Name = "textKeycodeLength";
             this.textKeycodeLength.Size = new System.Drawing.Size(68, 20);
             this.textKeycodeLength.TabIndex = 6;
+            this.textKeycodeLength.Click += new System.EventHandler(this.textKeycodeLength_Click);
             // 
             // textKeycodeFormat
             // 
@@ -236,6 +237,7 @@
             this.textKeycodeFormat.Name = "textKeycodeFormat";
             this.textKeycodeFormat.Size = new System.Drawing.Size(68, 20);
             this.textKeycodeFormat.TabIndex = 5;
+            this.textKeycodeFormat.Click += new System.EventHandler(this.textKeycodeFormat_Click);
             // 
             // panel3
             // 
