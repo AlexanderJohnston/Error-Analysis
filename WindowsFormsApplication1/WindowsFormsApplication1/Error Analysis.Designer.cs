@@ -51,8 +51,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.labelDrop = new System.Windows.Forms.Label();
-            this.textBadSplit = new System.Windows.Forms.TextBox();
-            this.textBadDrop = new System.Windows.Forms.TextBox();
+            this.textSplitCode = new System.Windows.Forms.TextBox();
+            this.textDropCode = new System.Windows.Forms.TextBox();
             this.labelSequential = new System.Windows.Forms.Label();
             this.textIMBUnique = new System.Windows.Forms.TextBox();
             this.labelIMBNull = new System.Windows.Forms.Label();
@@ -236,8 +236,8 @@
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.labelDrop);
-            this.panel3.Controls.Add(this.textBadSplit);
-            this.panel3.Controls.Add(this.textBadDrop);
+            this.panel3.Controls.Add(this.textSplitCode);
+            this.panel3.Controls.Add(this.textDropCode);
             this.panel3.Location = new System.Drawing.Point(377, 87);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(182, 118);
@@ -270,19 +270,19 @@
             this.labelDrop.TabIndex = 16;
             this.labelDrop.Text = "Number Drops";
             // 
-            // textBadSplit
+            // textSplitCode
             // 
-            this.textBadSplit.Location = new System.Drawing.Point(102, 70);
-            this.textBadSplit.Name = "textBadSplit";
-            this.textBadSplit.Size = new System.Drawing.Size(68, 20);
-            this.textBadSplit.TabIndex = 6;
+            this.textSplitCode.Location = new System.Drawing.Point(102, 70);
+            this.textSplitCode.Name = "textSplitCode";
+            this.textSplitCode.Size = new System.Drawing.Size(68, 20);
+            this.textSplitCode.TabIndex = 6;
             // 
-            // textBadDrop
+            // textDropCode
             // 
-            this.textBadDrop.Location = new System.Drawing.Point(102, 39);
-            this.textBadDrop.Name = "textBadDrop";
-            this.textBadDrop.Size = new System.Drawing.Size(68, 20);
-            this.textBadDrop.TabIndex = 5;
+            this.textDropCode.Location = new System.Drawing.Point(102, 39);
+            this.textDropCode.Name = "textDropCode";
+            this.textDropCode.Size = new System.Drawing.Size(68, 20);
+            this.textDropCode.TabIndex = 5;
             // 
             // labelSequential
             // 
@@ -414,8 +414,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelDrop;
-        private System.Windows.Forms.TextBox textBadSplit;
-        private System.Windows.Forms.TextBox textBadDrop;
+        private System.Windows.Forms.TextBox textSplitCode;
+        private System.Windows.Forms.TextBox textDropCode;
         private System.Windows.Forms.Label labelSequential;
         private System.Windows.Forms.TextBox textIMBUnique;
         private System.Windows.Forms.Label labelIMBNull;

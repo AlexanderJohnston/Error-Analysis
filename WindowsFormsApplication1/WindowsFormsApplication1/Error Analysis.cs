@@ -23,6 +23,45 @@ namespace WindowsFormsApplication1
         }
 
         /// <summary>
+        /// An entry point which accepts a file path to begin checking for common errors.
+        /// </summary>
+        public DataTable EntryPoint(string selectedFile)
+        {
+            // Build a data table to store our incoming file using the 1500 schema which is defined in the method.
+            DataTable table1500Layout = ErrorChecking.ConstructTable1500(selectedFile);
+
+            // Begin Error Analysis
+            int badFinder = ErrorChecking.CheckFinder(table1500Layout);
+            textFinderLength.Text = badFinder.ToString();
+            int badDuplicates = ErrorChecking.CheckDuplicates(table1500Layout);
+            textFinderDupe.Text = badDuplicates.ToString();
+            int badKeycodeLength = ErrorChecking.CheckKeycodeLength(table1500Layout);
+            textKeycodeLength.Text = badKeycodeLength.ToString();
+            int badKeycodeFormat = ErrorChecking.CheckKeycodeDropSplit(table1500Layout);
+            textKeycodeFormat.Text = badKeycodeFormat.ToString();
+            int countDropCode = ErrorChecking.CheckDropCode(table1500Layout);
+            textDropCode.Text = countDropCode.ToString();
+            int countSplitCode = ErrorChecking.CheckSplitCode(table1500Layout);
+            textSplitCode.Text = countSplitCode.ToString();
+            bool checkSequential = ErrorChecking.CheckSequenceOrder(table1500Layout);
+            textSequential.Text = checkSequential.ToString();
+            bool checkIMBNull = ErrorChecking.CheckIMBExists(table1500Layout);
+            textIMBNull.Text = checkIMBNull.ToString();
+            bool checkIMBUnique = ErrorChecking.CheckIMBUnique(table1500Layout);
+            textIMBUnique.Text = checkIMBUnique.ToString();
+            int checkIMBMin = ErrorChecking.CheckIMBMinLength(table1500Layout);
+            textIMBMin.Text = checkIMBMin.ToString();
+            int checkIMBMax = ErrorChecking.CheckIMBMaxLength(table1500Layout);
+            textIMBMax.Text = checkIMBMax.ToString();
+            int checkLongNameMatches = ErrorChecking.CheckLongName(table1500Layout);
+            
+            // Display the table.
+            return table1500Layout;
+
+            // End Method.
+        }
+
+        /// <summary>
         /// Calls for a file selection dialog and sets the information to a textbox.
         /// </summary>
         private void buttonSelectFile_Click(object sender, EventArgs e)
@@ -44,12 +83,14 @@ namespace WindowsFormsApplication1
             string selectedFile = textFilePath.Text.ToString();
             if (File.Exists(selectedFile) == true)
             {
-                dataGridView1.DataSource = ErrorChecking.EntryPoint(selectedFile);
+                dataGridView1.DataSource = EntryPoint(selectedFile);
             }
             else
             {
                 MessageBox.Show("Your selected file does not exist.", "File Error");
             }
+
+            
 
             // End Method.
         }
@@ -88,34 +129,7 @@ namespace WindowsFormsApplication1
     /// </summary>
     public class ErrorChecking
     {
-        /// <summary>
-        /// An entry point which accepts a file path to begin checking for common errors.
-        /// </summary>
-        public static DataTable EntryPoint(string selectedFile)
-        {
-            // Build a data table to store our incoming file using the 1500 schema which is defined in the method.
-            DataTable table1500Layout = ConstructTable1500(selectedFile);
-
-            // Begin Error Analysis
-            int badFinder = CheckFinder(table1500Layout);
-            int badDuplicates = CheckDuplicates(table1500Layout);
-            int badKeycodeLength = CheckKeycodeLength(table1500Layout);
-            int badKeycodeFormat = CheckKeycodeDropSplit(table1500Layout);
-            int countDropCode = CheckDropCode(table1500Layout);
-            int countSplitCode = CheckSplitCode(table1500Layout);
-            bool checkSequential = CheckSequenceOrder(table1500Layout);
-            bool checkIMBNull = CheckIMBExists(table1500Layout);
-            bool checkIMBUnique = CheckIMBUnique(table1500Layout);
-            int checkIMBMin = CheckIMBMinLength(table1500Layout);
-            int checkIMBMax = CheckIMBMaxLength(table1500Layout);
-            int checkLongNameMatches = CheckLongName(table1500Layout);
-
-            // Display the table.
-            return table1500Layout;
-
-            // End Method.
-        }
-
+    
         /// <summary>
         /// Construct a new data table with the 1500 byte Engage layout.
         /// </summary>
@@ -330,12 +344,17 @@ namespace WindowsFormsApplication1
 
         public static bool CheckIMBUnique(DataTable currentDataFile)
         {
-            // Call the IMB column and look for duplicated values using LINQ.
-            var duplicateIMBs = currentDataFile.Rows.OfType<DataRow>()
-                .GroupBy(r => r.Field<string>("IMB"))
-                // Only select where a group count is greater than 1, meaning a duplicate.
-                .Where(gr => gr.Count() > 1).ToList();
-            return duplicateIMBs.Count()>0;
+            var dupeIMB = currentDataFile.AsEnumerable()
+                .Where(r => r.Field<string>("IMB") != null)
+                .GroupBy(r => r)
+                .Any(g => g.Count() > 1);
+
+            if (dupeIMB)
+            {
+                // There are duplicates.
+                return true;
+            }
+            return false;
         }
 
         public static int CheckIMBMinLength(DataTable currentDataFile)
