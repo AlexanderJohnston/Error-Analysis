@@ -61,6 +61,10 @@
             this.labelIMBMax = new System.Windows.Forms.Label();
             this.textIMBMin = new System.Windows.Forms.TextBox();
             this.textIMBMax = new System.Windows.Forms.TextBox();
+            this.labelLongName = new System.Windows.Forms.Label();
+            this.textBadLongName = new System.Windows.Forms.TextBox();
+            this.buttonViewAll = new System.Windows.Forms.Button();
+            this.progressBarGeneral = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -106,7 +110,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(90, 211);
+            this.dataGridView1.Location = new System.Drawing.Point(90, 260);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(808, 253);
             this.dataGridView1.TabIndex = 4;
@@ -350,11 +354,48 @@
             this.textIMBMax.Size = new System.Drawing.Size(68, 20);
             this.textIMBMax.TabIndex = 29;
             // 
+            // labelLongName
+            // 
+            this.labelLongName.AutoSize = true;
+            this.labelLongName.Location = new System.Drawing.Point(718, 80);
+            this.labelLongName.Name = "labelLongName";
+            this.labelLongName.Size = new System.Drawing.Size(67, 13);
+            this.labelLongName.TabIndex = 30;
+            this.labelLongName.Text = "Long Names";
+            // 
+            // textBadLongName
+            // 
+            this.textBadLongName.Location = new System.Drawing.Point(791, 77);
+            this.textBadLongName.Name = "textBadLongName";
+            this.textBadLongName.Size = new System.Drawing.Size(68, 20);
+            this.textBadLongName.TabIndex = 31;
+            this.textBadLongName.Click += new System.EventHandler(this.textBadLongName_Click);
+            // 
+            // buttonViewAll
+            // 
+            this.buttonViewAll.Location = new System.Drawing.Point(736, 232);
+            this.buttonViewAll.Name = "buttonViewAll";
+            this.buttonViewAll.Size = new System.Drawing.Size(86, 22);
+            this.buttonViewAll.TabIndex = 33;
+            this.buttonViewAll.Text = "View All";
+            this.buttonViewAll.UseVisualStyleBackColor = true;
+            // 
+            // progressBarGeneral
+            // 
+            this.progressBarGeneral.Location = new System.Drawing.Point(90, 231);
+            this.progressBarGeneral.Name = "progressBarGeneral";
+            this.progressBarGeneral.Size = new System.Drawing.Size(281, 23);
+            this.progressBarGeneral.TabIndex = 34;
+            // 
             // ErrorAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 525);
+            this.Controls.Add(this.progressBarGeneral);
+            this.Controls.Add(this.buttonViewAll);
+            this.Controls.Add(this.textBadLongName);
+            this.Controls.Add(this.labelLongName);
             this.Controls.Add(this.textIMBMax);
             this.Controls.Add(this.textIMBMin);
             this.Controls.Add(this.labelIMBMax);
@@ -424,6 +465,10 @@
         private System.Windows.Forms.Label labelIMBMax;
         private System.Windows.Forms.TextBox textIMBMin;
         private System.Windows.Forms.TextBox textIMBMax;
+        private System.Windows.Forms.Label labelLongName;
+        private System.Windows.Forms.TextBox textBadLongName;
+        private System.Windows.Forms.Button buttonViewAll;
+        private System.Windows.Forms.ProgressBar progressBarGeneral;
     }
 }
 

@@ -54,6 +54,7 @@ namespace WindowsFormsApplication1
             int checkIMBMax = ErrorChecking.CheckIMBMaxLength(table1500Layout);
             textIMBMax.Text = checkIMBMax.ToString();
             int checkLongNameMatches = ErrorChecking.CheckLongName(table1500Layout);
+            textBadLongName.Text = checkLongNameMatches.ToString();
             
             // Display the table.
             return table1500Layout;
@@ -120,6 +121,35 @@ namespace WindowsFormsApplication1
         {
 
         }
+
+        private void textBadLongName_Click(object sender, EventArgs e)
+        {
+            // Send the number of bad names as integer, and the data table. Store it as a list.
+            List<int> foundRecords = new List<int>();
+            foundRecords = ErrorChecking.DetailsLongName(dataGridView1.DataSource as DataTable, 
+                Convert.ToInt32(textBadLongName.Text.ToString()));
+
+            // Set up a CurrencyManager to suspend binding for the upcoming conditional loop.
+            CurrencyManager currencyManager1 = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+            currencyManager1.SuspendBinding();
+
+            // Iterate over the data table to hide rows that do not appear in the list.
+            for (int i = 0; i < (dataGridView1.DataSource as DataTable).Rows.Count; i++)
+            {
+                // If the current row isn't found.
+                if ( !foundRecords.Contains(i) )
+                {
+                    // Then hide it by suspending the binding of the table.
+                    
+                    dataGridView1.Rows[i].Visible = false;
+                    
+                }
+            }
+
+            // Resume data binding.
+            currencyManager1.ResumeBinding();
+        }
+
         // End Class.
     }
 
@@ -422,6 +452,28 @@ namespace WindowsFormsApplication1
             // Return number of mismatched names.
             return i;
         }
+
+        public static List<int> DetailsLongName (DataTable currentDataFile, int totalBadNames)
+        {
+            // List to hold the indexes that we find.
+            List<int> indexBadNames = new List<int>();
+
+            // Return the record number of any matching the condition.
+            // Select has an overload which allows a second input for the index.
+            // Then simply check for where the conditions match and return the index.
+            var badFirstNames = currentDataFile.AsEnumerable()
+                .Select((r, i) => new { i, r })
+                .Where(f =>
+                f.r.Field<string>("Long_Name") != null && 
+                f.r.Field<string>("First_Name") != null &&
+                !f.r.Field<string>("Long_Name").Contains(f.r.Field<string>("First_Name"))
+                )
+                .Select(r => r.i);
+                indexBadNames.AddRange(badFirstNames);
+
+            return indexBadNames;
+        }
+
 
         // End Class.
     }
