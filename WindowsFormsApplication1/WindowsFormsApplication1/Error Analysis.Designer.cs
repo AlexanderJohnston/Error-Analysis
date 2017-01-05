@@ -64,7 +64,6 @@
             this.textIMBMin = new System.Windows.Forms.TextBox();
             this.textIMBMax = new System.Windows.Forms.TextBox();
             this.buttonViewAll = new System.Windows.Forms.Button();
-            this.progressBarGeneral = new System.Windows.Forms.ProgressBar();
             this.panel4 = new System.Windows.Forms.Panel();
             this.labelPanel4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -113,9 +112,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(90, 260);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 260);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(808, 253);
+            this.dataGridView1.Size = new System.Drawing.Size(1171, 367);
             this.dataGridView1.TabIndex = 4;
             // 
             // textFinderDupe
@@ -136,7 +135,7 @@
             // 
             // textSequential
             // 
-            this.textSequential.Location = new System.Drawing.Point(968, 34);
+            this.textSequential.Location = new System.Drawing.Point(1005, 83);
             this.textSequential.Name = "textSequential";
             this.textSequential.Size = new System.Drawing.Size(68, 20);
             this.textSequential.TabIndex = 14;
@@ -284,7 +283,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(890, 89);
+            this.label4.Location = new System.Drawing.Point(927, 138);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 13);
             this.label4.TabIndex = 17;
@@ -293,7 +292,7 @@
             // labelDrop
             // 
             this.labelDrop.AutoSize = true;
-            this.labelDrop.Location = new System.Drawing.Point(887, 63);
+            this.labelDrop.Location = new System.Drawing.Point(924, 112);
             this.labelDrop.Name = "labelDrop";
             this.labelDrop.Size = new System.Drawing.Size(75, 13);
             this.labelDrop.TabIndex = 16;
@@ -301,14 +300,14 @@
             // 
             // textSplitCode
             // 
-            this.textSplitCode.Location = new System.Drawing.Point(968, 86);
+            this.textSplitCode.Location = new System.Drawing.Point(1005, 135);
             this.textSplitCode.Name = "textSplitCode";
             this.textSplitCode.Size = new System.Drawing.Size(68, 20);
             this.textSplitCode.TabIndex = 6;
             // 
             // textDropCode
             // 
-            this.textDropCode.Location = new System.Drawing.Point(968, 60);
+            this.textDropCode.Location = new System.Drawing.Point(1005, 109);
             this.textDropCode.Name = "textDropCode";
             this.textDropCode.Size = new System.Drawing.Size(68, 20);
             this.textDropCode.TabIndex = 5;
@@ -316,7 +315,7 @@
             // labelSequential
             // 
             this.labelSequential.AutoSize = true;
-            this.labelSequential.Location = new System.Drawing.Point(905, 37);
+            this.labelSequential.Location = new System.Drawing.Point(942, 86);
             this.labelSequential.Name = "labelSequential";
             this.labelSequential.Size = new System.Drawing.Size(57, 13);
             this.labelSequential.TabIndex = 22;
@@ -351,7 +350,7 @@
             // labelIMBMin
             // 
             this.labelIMBMin.AutoSize = true;
-            this.labelIMBMin.Location = new System.Drawing.Point(892, 119);
+            this.labelIMBMin.Location = new System.Drawing.Point(929, 168);
             this.labelIMBMin.Name = "labelIMBMin";
             this.labelIMBMin.Size = new System.Drawing.Size(70, 13);
             this.labelIMBMin.TabIndex = 26;
@@ -360,7 +359,7 @@
             // labelIMBMax
             // 
             this.labelIMBMax.AutoSize = true;
-            this.labelIMBMax.Location = new System.Drawing.Point(889, 145);
+            this.labelIMBMax.Location = new System.Drawing.Point(926, 194);
             this.labelIMBMax.Name = "labelIMBMax";
             this.labelIMBMax.Size = new System.Drawing.Size(73, 13);
             this.labelIMBMax.TabIndex = 27;
@@ -368,14 +367,14 @@
             // 
             // textIMBMin
             // 
-            this.textIMBMin.Location = new System.Drawing.Point(968, 112);
+            this.textIMBMin.Location = new System.Drawing.Point(1005, 161);
             this.textIMBMin.Name = "textIMBMin";
             this.textIMBMin.Size = new System.Drawing.Size(68, 20);
             this.textIMBMin.TabIndex = 28;
             // 
             // textIMBMax
             // 
-            this.textIMBMax.Location = new System.Drawing.Point(968, 138);
+            this.textIMBMax.Location = new System.Drawing.Point(1005, 187);
             this.textIMBMax.Name = "textIMBMax";
             this.textIMBMax.Size = new System.Drawing.Size(68, 20);
             this.textIMBMax.TabIndex = 29;
@@ -384,18 +383,11 @@
             // 
             this.buttonViewAll.Location = new System.Drawing.Point(736, 232);
             this.buttonViewAll.Name = "buttonViewAll";
-            this.buttonViewAll.Size = new System.Drawing.Size(86, 22);
+            this.buttonViewAll.Size = new System.Drawing.Size(108, 22);
             this.buttonViewAll.TabIndex = 33;
-            this.buttonViewAll.Text = "View All";
+            this.buttonViewAll.Text = "View All Records";
             this.buttonViewAll.UseVisualStyleBackColor = true;
             this.buttonViewAll.Click += new System.EventHandler(this.buttonViewAll_Click);
-            // 
-            // progressBarGeneral
-            // 
-            this.progressBarGeneral.Location = new System.Drawing.Point(90, 231);
-            this.progressBarGeneral.Name = "progressBarGeneral";
-            this.progressBarGeneral.Size = new System.Drawing.Size(281, 23);
-            this.progressBarGeneral.TabIndex = 34;
             // 
             // panel4
             // 
@@ -420,9 +412,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 525);
+            this.ClientSize = new System.Drawing.Size(1195, 639);
             this.Controls.Add(this.panel4);
-            this.Controls.Add(this.progressBarGeneral);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textSplitCode);
             this.Controls.Add(this.buttonViewAll);
@@ -498,7 +489,6 @@
         private System.Windows.Forms.Label labelLongName;
         private System.Windows.Forms.TextBox textBadLongName;
         private System.Windows.Forms.Button buttonViewAll;
-        private System.Windows.Forms.ProgressBar progressBarGeneral;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label labelPanel4;
     }
