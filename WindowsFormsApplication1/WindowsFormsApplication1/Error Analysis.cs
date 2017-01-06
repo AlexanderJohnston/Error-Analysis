@@ -18,12 +18,17 @@ namespace WindowsFormsApplication1
 
     public partial class ErrorAnalysis : Form
     {
+        // This is a DataTable object to store the full file once it has been parsed. Methods will filter it on demand, not destructively.
         public static DataTable globalTable = new DataTable();
 
+        // Entry(), Main().
         public ErrorAnalysis()
         {
             InitializeComponent();
             dataGridView1.DoubleBuffered(true);
+
+            // Jump to buttonAnalyze_Click for the next step.
+
         }
 
         /// <summary>
@@ -68,6 +73,8 @@ namespace WindowsFormsApplication1
             textIMBSequenceEnd.Text = checkIMBSeqEnd.ToString();
             bool checkIMBSequential = ErrorChecking.CheckIMBSequential(table1500Layout);
             textIMBSequential.Text = checkIMBSequential.ToString();
+            int checkIMBMatches = ErrorChecking.CheckIMBMatchesData(table1500Layout);
+            textIMBMatchData.Text = checkIMBMatches.ToString();
 
 
             // Display the table.
@@ -100,6 +107,8 @@ namespace WindowsFormsApplication1
             {
                 // Initialize table.
                 DataTable currentDataTable = new DataTable();
+
+                // Move on to the next major step.
                 currentDataTable = EntryPoint(selectedFile);
 
                 // Drop out if the table came back null.
@@ -335,6 +344,33 @@ namespace WindowsFormsApplication1
                 // Iterate over the data table to hide rows that do not appear in the list.
                 var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
                     .Where((row, index) => foundRecords.Contains(row.Field<string>("IMB")))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
+        private void textIMBMatchData_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textIMBMatchData.Text.ToString() != "False" && textIMBMatchData.Text.ToString() != null)
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
+
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsIMBMatching(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
                     .CopyToDataTable();
 
                 // Make a new dataview based on the query. Set the datasource to the new view.
@@ -701,7 +737,20 @@ namespace WindowsFormsApplication1
 
         public static int CheckIMBMatchesData(DataTable currentDataFile)
         {
-            //!fix!(20,11)
+            var countBadFormat = currentDataFile.AsEnumerable()
+                // Only select valid barcodes.
+               .Where(r => r.Field<string>("IMB").Length == 31)
+               // Compare valid barcode to other data fields.
+               .Where(r => r.Field<string>("IMB").Substring(20, 11)
+               != r.Field<string>("Zip")
+               + r.Field<string>("Zip4")
+               + r.Field<string>("DPC").Substring(0,2)
+               )
+               .ToList();
+
+            return countBadFormat.Count();
+            // End Method.
+
         }
 
         public static int CheckLongName(DataTable currentDataFile)
@@ -879,6 +928,33 @@ namespace WindowsFormsApplication1
 
             indexDupeIDs.AddRange(duplicateIDs);
             return indexDupeIDs;
+        }
+
+        public static List<int> DetailsIMBMatching(DataTable currentDataFile)
+        {
+            // A list of integers to hold the index of bad matches.
+            List<int> indexBadIMB = new List<int>();
+
+            // CONDITION: "IMB".Substring(20,11) should be Zip5+Zip4+DPC
+            var indexesFound = currentDataFile.AsEnumerable()
+                // Only select barcodes of the correct length.
+                .Where( r => r.Field<string>("IMB").Length == 31)
+                // Overload select to get index.
+                .Select((r, i) => new { i, r })
+                // Check for the baddies.
+                .Where(
+                f => f.r.Field<string>("IMB").Substring(20,11) 
+                != (
+                f.r.Field<string>("Zip")
+                + f.r.Field<string>("Zip4")
+                + f.r.Field<string>("DPC").Substring(0,2)
+                    )
+                )
+                .Select(r => r.i);
+
+            indexBadIMB.AddRange(indexesFound);
+
+            return indexBadIMB;
         }
 
         // End Class.
