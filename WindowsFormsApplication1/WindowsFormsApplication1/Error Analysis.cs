@@ -310,18 +310,29 @@ namespace WindowsFormsApplication1
                 // Check the data source before proceeding.
                 if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
 
-                // Send the data table. Store index in return as a list.
-                List<int> foundRecords = new List<int>();
-                foundRecords = ErrorChecking.DetailsIMBNull(dataGridView1.DataSource as DataTable);
+                // Check if it's the whole file, to save time.
+                var checkNullExists = globalTable.Rows.OfType<DataRow>()
+                .Where(r => r.Field<string>("IMB").ToString() == "");
+                // If whole file, inform user.
+                if (checkNullExists.Count() == Convert.ToInt32(labelRecordNum.Text.Substring(9, labelRecordNum.Text.ToString().Length - 9)))
+                {
+                    MessageBox.Show("The entire file is missing barcodes. No filter has been applied.", "No Change");
+                }
+                else
+                {
+                    // Send the data table. Store index in return as a list.
+                    List<int> foundRecords = new List<int>();
+                    foundRecords = ErrorChecking.DetailsIMBNull(dataGridView1.DataSource as DataTable);
 
-                // Iterate over the data table to hide rows that do not appear in the list.
-                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
-                    .Where((row, index) => foundRecords.Contains(index))
-                    .CopyToDataTable();
+                    // Iterate over the data table to hide rows that do not appear in the list.
+                    var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                        .Where((row, index) => foundRecords.Contains(index))
+                        .CopyToDataTable();
 
-                // Make a new dataview based on the query. Set the datasource to the new view.
-                DataView filterView = filterQuery.AsDataView();
-                dataGridView1.DataSource = filterView;
+                    // Make a new dataview based on the query. Set the datasource to the new view.
+                    DataView filterView = filterQuery.AsDataView();
+                    dataGridView1.DataSource = filterView;
+                }
             }
             else
             {
@@ -741,25 +752,39 @@ namespace WindowsFormsApplication1
 
         public static bool CheckIMBSequential(DataTable currentDataFile)
         {
-            // Get our sequence numbers into list format as integer.
-            var dataAsList = currentDataFile.Rows.OfType<DataRow>()
+            // Make sure that there are at least a couple values to check.
+            var safetyLINQ = currentDataFile.AsEnumerable()
+                // Discard bad IMB numbers.
+                .Where(r => r.Field<string>("IMB").Length == 31)
+                .ToList();
+            if (safetyLINQ.Count > 1)
+            {
+                // Get our sequence numbers into list format as integer.
+                var dataAsList = currentDataFile.Rows.OfType<DataRow>()
                 // Discard bad IMB numbers.
                 .Where(r => r.Field<string>("IMB").Length == 31)
                 .Select(r => Convert.ToInt32(r.Field<string>("IMB").Substring(11, 9)))
                 .ToList<int>();
-            // Make sure that our sequence numbers are in order by generating a new range based on min & count.
-            bool sequentialCheck = Enumerable
-                // Call the Enumerable as a range.
-                .Range(
-                // Define the minimum of the range to be minimum of the "Seq" field on table.
-                dataAsList.Min(),
-                // An iteration of count equal to the total items on the list.
-                dataAsList.Count()
-                       )
-                // And check that this newly generated sequence matches the table.
-                .SequenceEqual(dataAsList);
+                // Make sure that our sequence numbers are in order by generating a new range based on min & count.
+                bool sequentialCheck = Enumerable
+                    // Call the Enumerable as a range.
+                    .Range(
+                    // Define the minimum of the range to be minimum of the "Seq" field on table.
+                    dataAsList.Min(),
+                    // An iteration of count equal to the total items on the list.
+                    dataAsList.Count()
+                           )
+                    // And check that this newly generated sequence matches the table.
+                    .SequenceEqual(dataAsList);
 
-            return sequentialCheck;
+                return sequentialCheck;
+            }
+            else
+            {
+                // There were no barcodes.
+                return false;
+            }
+                
         }
 
         public static int CheckIMBMatchesData(DataTable currentDataFile)
