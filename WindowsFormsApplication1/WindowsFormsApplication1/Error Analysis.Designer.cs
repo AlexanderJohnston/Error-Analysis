@@ -75,6 +75,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.labelPanel4 = new System.Windows.Forms.Label();
             this.labelRecordNum = new System.Windows.Forms.Label();
+            this.progressBarAnalyze = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -507,11 +508,19 @@
             this.labelRecordNum.TabIndex = 34;
             this.labelRecordNum.Text = "Records: 0";
             // 
+            // progressBarAnalyze
+            // 
+            this.progressBarAnalyze.Location = new System.Drawing.Point(333, 10);
+            this.progressBarAnalyze.Name = "progressBarAnalyze";
+            this.progressBarAnalyze.Size = new System.Drawing.Size(178, 23);
+            this.progressBarAnalyze.TabIndex = 35;
+            // 
             // ErrorAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1195, 639);
+            this.Controls.Add(this.progressBarAnalyze);
             this.Controls.Add(this.labelRecordNum);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.label4);
@@ -596,6 +605,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textIMBSequenceStart;
         private System.Windows.Forms.Label labelIMBSequenceStart;
+        private System.Windows.Forms.ProgressBar progressBarAnalyze;
     }
 }
 

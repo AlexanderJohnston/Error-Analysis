@@ -38,6 +38,7 @@ namespace WindowsFormsApplication1
         {
             // Build a data table to store our incoming file using the 1500 schema which is defined in the method.
             DataTable table1500Layout = ErrorChecking.ConstructTable1500(selectedFile);
+            progressBarAnalyze.Value++;
 
             // Drop out if the table couldn't be constructed properly, due to header mis-match.
             if (table1500Layout.Rows.Count == 0) { return table1500Layout; }
@@ -45,37 +46,52 @@ namespace WindowsFormsApplication1
             // Begin Error Analysis
             int badFinder = ErrorChecking.CheckFinder(table1500Layout);
             textFinderLength.Text = badFinder.ToString();
+            progressBarAnalyze.Value++;
             int badDuplicates = ErrorChecking.CheckDuplicates(table1500Layout);
             textFinderDupe.Text = badDuplicates.ToString();
+            progressBarAnalyze.Value++;
             int badKeycodeLength = ErrorChecking.CheckKeycodeLength(table1500Layout);
             textKeycodeLength.Text = badKeycodeLength.ToString();
+            progressBarAnalyze.Value++;
             int badKeycodeFormat = ErrorChecking.CheckKeycodeDropSplit(table1500Layout);
             textKeycodeFormat.Text = badKeycodeFormat.ToString();
+            progressBarAnalyze.Value++;
             int countDropCode = ErrorChecking.CheckDropCode(table1500Layout);
             textDropCode.Text = countDropCode.ToString();
+            progressBarAnalyze.Value++;
             int countSplitCode = ErrorChecking.CheckSplitCode(table1500Layout);
             textSplitCode.Text = countSplitCode.ToString();
+            progressBarAnalyze.Value++;
             bool checkSequential = ErrorChecking.CheckSequenceOrder(table1500Layout);
             textSequential.Text = checkSequential.ToString();
+            progressBarAnalyze.Value++;
             bool checkIMBNull = ErrorChecking.CheckIMBExists(table1500Layout);
             textIMBNull.Text = checkIMBNull.ToString();
+            progressBarAnalyze.Value++;
             bool checkIMBUnique = ErrorChecking.CheckIMBUnique(table1500Layout);
             textIMBUnique.Text = checkIMBUnique.ToString();
+            progressBarAnalyze.Value++;
             int checkIMBMin = ErrorChecking.CheckIMBMinLength(table1500Layout);
             textIMBMin.Text = checkIMBMin.ToString();
+            progressBarAnalyze.Value++;
             int checkIMBMax = ErrorChecking.CheckIMBMaxLength(table1500Layout);
             textIMBMax.Text = checkIMBMax.ToString();
+            progressBarAnalyze.Value++;
             int checkLongNameMatches = ErrorChecking.CheckLongName(table1500Layout);
             textBadLongName.Text = checkLongNameMatches.ToString();
+            progressBarAnalyze.Value++;
             string checkIMBSeqStart = ErrorChecking.CheckIMBSequenceMinimum(table1500Layout);
             textIMBSequenceStart.Text = checkIMBSeqStart.ToString();
+            progressBarAnalyze.Value++;
             string checkIMBSeqEnd = ErrorChecking.CheckIMBSequenceMaximum(table1500Layout);
             textIMBSequenceEnd.Text = checkIMBSeqEnd.ToString();
+            progressBarAnalyze.Value++;
             bool checkIMBSequential = ErrorChecking.CheckIMBSequential(table1500Layout);
             textIMBSequential.Text = checkIMBSequential.ToString();
+            progressBarAnalyze.Value++;
             int checkIMBMatches = ErrorChecking.CheckIMBMatchesData(table1500Layout);
             textIMBMatchData.Text = checkIMBMatches.ToString();
-
+            progressBarAnalyze.Value++;
 
             // Display the table.
             return table1500Layout;
@@ -109,6 +125,7 @@ namespace WindowsFormsApplication1
                 DataTable currentDataTable = new DataTable();
 
                 // Move on to the next major step.
+                progressBarAnalyze.Maximum = 18; progressBarAnalyze.Value = 0;
                 currentDataTable = EntryPoint(selectedFile);
 
                 // Drop out if the table came back null.
@@ -116,9 +133,11 @@ namespace WindowsFormsApplication1
 
                 // Save our global table.
                 globalTable = currentDataTable;
-                
+                progressBarAnalyze.Value++;
+
                 //Display the table.
                 dataGridView1.DataSource = currentDataTable;
+                progressBarAnalyze.Value = 0;
 
                 // Set the record number label.
                 labelRecordNum.Text = "Records: " + currentDataTable.Rows.Count; 
