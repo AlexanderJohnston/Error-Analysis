@@ -556,6 +556,7 @@ namespace WindowsFormsApplication1
             *  from byte 2 to 2, added to the string column "Split".
             */
             var countBadFormat = currentDataFile.AsEnumerable()
+                .Where(r => ((string)r["Keycode"]).Length == 11)
                 .Where(r => ((string)r["Keycode"]).Substring(9, 2)
                 != ((string)r["Drop"]).Substring(1, 1)
                 + ((string)r["Split"]).ToString()).ToList();
