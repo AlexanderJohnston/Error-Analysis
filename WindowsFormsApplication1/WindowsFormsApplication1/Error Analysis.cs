@@ -359,7 +359,7 @@ namespace WindowsFormsApplication1
         private void textIMBMatchData_Click(object sender, EventArgs e)
         {
             // Check that an error was found before proceeding.
-            if (textIMBMatchData.Text.ToString() != "False" && textIMBMatchData.Text.ToString() != null)
+            if (textIMBMatchData.Text.ToString() != "False" && textIMBMatchData.Text.ToString() != "0")
             {
                 // Check the data source before proceeding.
                 if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
@@ -672,7 +672,14 @@ namespace WindowsFormsApplication1
             // Initialize a string for return.
             string foundMinimum = null;
 
-            var minimumSequence = currentDataFile.AsEnumerable()
+            // Make sure that there are at least a couple values to check.
+            var safetyLINQ = currentDataFile.AsEnumerable()
+                // Discard bad IMB numbers.
+                .Where(r => r.Field<string>("IMB").Length == 31)
+                .ToList();
+            if (safetyLINQ.Count > 1)
+            {
+                var minimumSequence = currentDataFile.AsEnumerable()
                 // Discard bad IMB numbers.
                 .Where(r => r.Field<string>("IMB").Length == 31)
                 // Get the sequence numbers as an integer, from bytes 11 to 19)
@@ -682,12 +689,18 @@ namespace WindowsFormsApplication1
                 // Compare the first two results, then c ompare the comparison to the next result : iterate until final answer.
                 .Aggregate((pre, cur) => pre < cur ? pre : cur);
 
-            // 0-fill the integer back into a string. 
-            // Select a substring which is 9 digits long starting at the right side.
-            // Adding 8 because that's the length of the 0 fill constant.
-            foundMinimum = ("00000000" + minimumSequence.ToString()).Substring(minimumSequence.ToString().Length + 8 - 9,9);
+                // 0-fill the integer back into a string. 
+                // Select a substring which is 9 digits long starting at the right side.
+                // Adding 8 because that's the length of the 0 fill constant.
+                foundMinimum = ("00000000" + minimumSequence.ToString()).Substring(minimumSequence.ToString().Length + 8 - 9, 9);
 
-            return foundMinimum;
+                return foundMinimum;
+            }
+            else
+            {
+                // There were no barcodes to check.
+                return "Blank";
+            }
         }
         
         public static string CheckIMBSequenceMaximum(DataTable currentDataFile)
@@ -695,7 +708,14 @@ namespace WindowsFormsApplication1
             // Initialize a string for return.
             string foundMaximum = null;
 
-            var maximumSequence = currentDataFile.AsEnumerable()
+            // Make sure that there are at least a couple values to check.
+            var safetyLINQ = currentDataFile.AsEnumerable()
+                // Discard bad IMB numbers.
+                .Where(r => r.Field<string>("IMB").Length == 31)
+                .ToList();
+            if (safetyLINQ.Count > 1)
+            {
+                var maximumSequence = currentDataFile.AsEnumerable()
                 // Discard bad IMB numbers.
                 .Where(r => r.Field<string>("IMB").Length == 31)
                 // Get the sequence numbers as an integer, from bytes 11 to 19)
@@ -705,12 +725,18 @@ namespace WindowsFormsApplication1
                 // Compare the first two results, then c ompare the comparison to the next result : iterate until final answer.
                 .Aggregate((pre, cur) => pre > cur ? pre : cur);
 
-            // 0-fill the integer back into a string. 
-            // Select a substring which is 9 digits long starting at the right side.
-            // Adding 8 because that's the length of the 0 fill constant.
-            foundMaximum = ("00000000" + maximumSequence.ToString()).Substring(maximumSequence.ToString().Length + 8 - 9, 9);
+                // 0-fill the integer back into a string. 
+                // Select a substring which is 9 digits long starting at the right side.
+                // Adding 8 because that's the length of the 0 fill constant.
+                foundMaximum = ("00000000" + maximumSequence.ToString()).Substring(maximumSequence.ToString().Length + 8 - 9, 9);
 
-            return foundMaximum;
+                return foundMaximum;
+            }
+            else
+            {
+                // There were no barcodes to check.
+                return "Blank";
+            }
         }
 
         public static bool CheckIMBSequential(DataTable currentDataFile)
