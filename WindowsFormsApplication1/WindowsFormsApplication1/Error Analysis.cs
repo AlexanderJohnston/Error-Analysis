@@ -37,8 +37,8 @@ namespace WindowsFormsApplication1
         public DataTable EntryPoint(string selectedFile)
         {
             // Build a data table to store our incoming file using the 1500 schema which is defined in the method.
-            DataTable table1500Layout = ErrorChecking.ConstructTable1500(selectedFile);
             progressBarAnalyze.Value++;
+            DataTable table1500Layout = ErrorChecking.ConstructTable1500(selectedFile);
 
             // Drop out if the table couldn't be constructed properly, due to header mis-match.
             if (table1500Layout.Rows.Count == 0) { return table1500Layout; }

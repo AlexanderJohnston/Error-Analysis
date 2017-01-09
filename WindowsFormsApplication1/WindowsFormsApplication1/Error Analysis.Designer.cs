@@ -76,6 +76,20 @@
             this.labelPanel4 = new System.Windows.Forms.Label();
             this.labelRecordNum = new System.Windows.Forms.Label();
             this.progressBarAnalyze = new System.Windows.Forms.ProgressBar();
+            this.labelSalutationBlank = new System.Windows.Forms.Label();
+            this.textSalutations = new System.Windows.Forms.TextBox();
+            this.labelStateMatch = new System.Windows.Forms.Label();
+            this.textStateMatch = new System.Windows.Forms.TextBox();
+            this.labelAddresses = new System.Windows.Forms.Label();
+            this.textAddressOrder = new System.Windows.Forms.TextBox();
+            this.labelAppends = new System.Windows.Forms.Label();
+            this.textAppends = new System.Windows.Forms.TextBox();
+            this.labelAmounts = new System.Windows.Forms.Label();
+            this.textAmounts = new System.Windows.Forms.TextBox();
+            this.labelFileType = new System.Windows.Forms.Label();
+            this.textFileType = new System.Windows.Forms.TextBox();
+            this.labelSpecialChars = new System.Windows.Forms.Label();
+            this.textBadCharacters = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -382,7 +396,7 @@
             // labelIMBMax
             // 
             this.labelIMBMax.AutoSize = true;
-            this.labelIMBMax.Location = new System.Drawing.Point(164, 63);
+            this.labelIMBMax.Location = new System.Drawing.Point(164, 59);
             this.labelIMBMax.Name = "labelIMBMax";
             this.labelIMBMax.Size = new System.Drawing.Size(73, 13);
             this.labelIMBMax.TabIndex = 27;
@@ -414,7 +428,7 @@
             // labelLongName
             // 
             this.labelLongName.AutoSize = true;
-            this.labelLongName.Location = new System.Drawing.Point(3, 42);
+            this.labelLongName.Location = new System.Drawing.Point(3, 28);
             this.labelLongName.Name = "labelLongName";
             this.labelLongName.Size = new System.Drawing.Size(67, 13);
             this.labelLongName.TabIndex = 30;
@@ -422,7 +436,7 @@
             // 
             // textBadLongName
             // 
-            this.textBadLongName.Location = new System.Drawing.Point(76, 39);
+            this.textBadLongName.Location = new System.Drawing.Point(76, 25);
             this.textBadLongName.Name = "textBadLongName";
             this.textBadLongName.Size = new System.Drawing.Size(68, 20);
             this.textBadLongName.TabIndex = 31;
@@ -482,6 +496,20 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.labelSpecialChars);
+            this.panel4.Controls.Add(this.textBadCharacters);
+            this.panel4.Controls.Add(this.labelFileType);
+            this.panel4.Controls.Add(this.textFileType);
+            this.panel4.Controls.Add(this.labelAmounts);
+            this.panel4.Controls.Add(this.textAmounts);
+            this.panel4.Controls.Add(this.labelAppends);
+            this.panel4.Controls.Add(this.textAppends);
+            this.panel4.Controls.Add(this.labelAddresses);
+            this.panel4.Controls.Add(this.textAddressOrder);
+            this.panel4.Controls.Add(this.labelStateMatch);
+            this.panel4.Controls.Add(this.textStateMatch);
+            this.panel4.Controls.Add(this.labelSalutationBlank);
+            this.panel4.Controls.Add(this.textSalutations);
             this.panel4.Controls.Add(this.labelPanel4);
             this.panel4.Controls.Add(this.labelLongName);
             this.panel4.Controls.Add(this.textBadLongName);
@@ -493,11 +521,11 @@
             // labelPanel4
             // 
             this.labelPanel4.AutoSize = true;
-            this.labelPanel4.Location = new System.Drawing.Point(132, 4);
+            this.labelPanel4.Location = new System.Drawing.Point(130, 3);
             this.labelPanel4.Name = "labelPanel4";
-            this.labelPanel4.Size = new System.Drawing.Size(40, 13);
+            this.labelPanel4.Size = new System.Drawing.Size(56, 13);
             this.labelPanel4.TabIndex = 18;
-            this.labelPanel4.Text = "Names";
+            this.labelPanel4.Text = "Bad Fields";
             // 
             // labelRecordNum
             // 
@@ -514,6 +542,118 @@
             this.progressBarAnalyze.Name = "progressBarAnalyze";
             this.progressBarAnalyze.Size = new System.Drawing.Size(178, 23);
             this.progressBarAnalyze.TabIndex = 35;
+            // 
+            // labelSalutationBlank
+            // 
+            this.labelSalutationBlank.AutoSize = true;
+            this.labelSalutationBlank.Location = new System.Drawing.Point(3, 59);
+            this.labelSalutationBlank.Name = "labelSalutationBlank";
+            this.labelSalutationBlank.Size = new System.Drawing.Size(54, 13);
+            this.labelSalutationBlank.TabIndex = 32;
+            this.labelSalutationBlank.Text = "Salutation";
+            // 
+            // textSalutations
+            // 
+            this.textSalutations.Location = new System.Drawing.Point(76, 56);
+            this.textSalutations.Name = "textSalutations";
+            this.textSalutations.Size = new System.Drawing.Size(68, 20);
+            this.textSalutations.TabIndex = 33;
+            // 
+            // labelStateMatch
+            // 
+            this.labelStateMatch.AutoSize = true;
+            this.labelStateMatch.Location = new System.Drawing.Point(3, 90);
+            this.labelStateMatch.Name = "labelStateMatch";
+            this.labelStateMatch.Size = new System.Drawing.Size(51, 13);
+            this.labelStateMatch.TabIndex = 34;
+            this.labelStateMatch.Text = "Full State";
+            // 
+            // textStateMatch
+            // 
+            this.textStateMatch.Location = new System.Drawing.Point(76, 87);
+            this.textStateMatch.Name = "textStateMatch";
+            this.textStateMatch.Size = new System.Drawing.Size(68, 20);
+            this.textStateMatch.TabIndex = 35;
+            // 
+            // labelAddresses
+            // 
+            this.labelAddresses.AutoSize = true;
+            this.labelAddresses.Location = new System.Drawing.Point(-1, 123);
+            this.labelAddresses.Name = "labelAddresses";
+            this.labelAddresses.Size = new System.Drawing.Size(74, 13);
+            this.labelAddresses.TabIndex = 36;
+            this.labelAddresses.Text = "Address Order";
+            // 
+            // textAddressOrder
+            // 
+            this.textAddressOrder.Location = new System.Drawing.Point(76, 120);
+            this.textAddressOrder.Name = "textAddressOrder";
+            this.textAddressOrder.Size = new System.Drawing.Size(68, 20);
+            this.textAddressOrder.TabIndex = 37;
+            // 
+            // labelAppends
+            // 
+            this.labelAppends.AutoSize = true;
+            this.labelAppends.Location = new System.Drawing.Point(181, 28);
+            this.labelAppends.Name = "labelAppends";
+            this.labelAppends.Size = new System.Drawing.Size(49, 13);
+            this.labelAppends.TabIndex = 38;
+            this.labelAppends.Text = "Appends";
+            // 
+            // textAppends
+            // 
+            this.textAppends.Location = new System.Drawing.Point(236, 25);
+            this.textAppends.Name = "textAppends";
+            this.textAppends.Size = new System.Drawing.Size(68, 20);
+            this.textAppends.TabIndex = 39;
+            // 
+            // labelAmounts
+            // 
+            this.labelAmounts.AutoSize = true;
+            this.labelAmounts.Location = new System.Drawing.Point(181, 59);
+            this.labelAmounts.Name = "labelAmounts";
+            this.labelAmounts.Size = new System.Drawing.Size(48, 13);
+            this.labelAmounts.TabIndex = 40;
+            this.labelAmounts.Text = "Amounts";
+            // 
+            // textAmounts
+            // 
+            this.textAmounts.Location = new System.Drawing.Point(236, 56);
+            this.textAmounts.Name = "textAmounts";
+            this.textAmounts.Size = new System.Drawing.Size(68, 20);
+            this.textAmounts.TabIndex = 41;
+            // 
+            // labelFileType
+            // 
+            this.labelFileType.AutoSize = true;
+            this.labelFileType.Location = new System.Drawing.Point(181, 90);
+            this.labelFileType.Name = "labelFileType";
+            this.labelFileType.Size = new System.Drawing.Size(50, 13);
+            this.labelFileType.TabIndex = 42;
+            this.labelFileType.Text = "File Type";
+            // 
+            // textFileType
+            // 
+            this.textFileType.Location = new System.Drawing.Point(236, 87);
+            this.textFileType.Name = "textFileType";
+            this.textFileType.Size = new System.Drawing.Size(68, 20);
+            this.textFileType.TabIndex = 43;
+            // 
+            // labelSpecialChars
+            // 
+            this.labelSpecialChars.AutoSize = true;
+            this.labelSpecialChars.Location = new System.Drawing.Point(151, 123);
+            this.labelSpecialChars.Name = "labelSpecialChars";
+            this.labelSpecialChars.Size = new System.Drawing.Size(80, 13);
+            this.labelSpecialChars.TabIndex = 44;
+            this.labelSpecialChars.Text = "Bad Characters";
+            // 
+            // textBadCharacters
+            // 
+            this.textBadCharacters.Location = new System.Drawing.Point(236, 120);
+            this.textBadCharacters.Name = "textBadCharacters";
+            this.textBadCharacters.Size = new System.Drawing.Size(68, 20);
+            this.textBadCharacters.TabIndex = 45;
             // 
             // ErrorAnalysis
             // 
@@ -606,6 +746,20 @@
         private System.Windows.Forms.TextBox textIMBSequenceStart;
         private System.Windows.Forms.Label labelIMBSequenceStart;
         private System.Windows.Forms.ProgressBar progressBarAnalyze;
+        private System.Windows.Forms.Label labelSpecialChars;
+        private System.Windows.Forms.TextBox textBadCharacters;
+        private System.Windows.Forms.Label labelFileType;
+        private System.Windows.Forms.TextBox textFileType;
+        private System.Windows.Forms.Label labelAmounts;
+        private System.Windows.Forms.TextBox textAmounts;
+        private System.Windows.Forms.Label labelAppends;
+        private System.Windows.Forms.TextBox textAppends;
+        private System.Windows.Forms.Label labelAddresses;
+        private System.Windows.Forms.TextBox textAddressOrder;
+        private System.Windows.Forms.Label labelStateMatch;
+        private System.Windows.Forms.TextBox textStateMatch;
+        private System.Windows.Forms.Label labelSalutationBlank;
+        private System.Windows.Forms.TextBox textSalutations;
     }
 }
 
