@@ -48,63 +48,88 @@ namespace WindowsFormsApplication1
             int badFinder = ErrorChecking.CheckFinder(table1500Layout);
             textFinderLength.Text = badFinder.ToString();
             progressBarAnalyze.Value++;
+
             int badDuplicates = ErrorChecking.CheckDuplicates(table1500Layout);
             textFinderDupe.Text = badDuplicates.ToString();
             progressBarAnalyze.Value++;
+
             int badKeycodeLength = ErrorChecking.CheckKeycodeLength(table1500Layout);
             textKeycodeLength.Text = badKeycodeLength.ToString();
             progressBarAnalyze.Value++;
+
             int badKeycodeFormat = ErrorChecking.CheckKeycodeDropSplit(table1500Layout);
             textKeycodeFormat.Text = badKeycodeFormat.ToString();
             progressBarAnalyze.Value++;
+
             int countDropCode = ErrorChecking.CheckDropCode(table1500Layout);
             textDropCode.Text = countDropCode.ToString();
             progressBarAnalyze.Value++;
+
             int countSplitCode = ErrorChecking.CheckSplitCode(table1500Layout);
             textSplitCode.Text = countSplitCode.ToString();
             progressBarAnalyze.Value++;
+
             bool checkSequential = ErrorChecking.CheckSequenceOrder(table1500Layout);
             textSequential.Text = checkSequential.ToString();
             progressBarAnalyze.Value++;
+
+            // Check to see if there are blank IMBs.
             bool checkIMBNull = ErrorChecking.CheckIMBExists(table1500Layout);
-            textIMBNull.Text = checkIMBNull.ToString();
+            // Check to see if any IMBs exist at all in proper format.
+            var existsEvenOneIMB = table1500Layout.AsEnumerable().Where(r => r.Field<string>("IMB").Length == 31);
+            // Report the situation.
+            if (existsEvenOneIMB.Count() > 0) { textIMBNull.Text = checkIMBNull.ToString(); }
+            else { textIMBNull.Text = "All"; } 
             progressBarAnalyze.Value++;
+
             bool checkIMBUnique = ErrorChecking.CheckIMBUnique(table1500Layout);
             textIMBUnique.Text = checkIMBUnique.ToString();
             progressBarAnalyze.Value++;
+
             int checkIMBMin = ErrorChecking.CheckIMBMinLength(table1500Layout);
             textIMBMin.Text = checkIMBMin.ToString();
             progressBarAnalyze.Value++;
+
             int checkIMBMax = ErrorChecking.CheckIMBMaxLength(table1500Layout);
             textIMBMax.Text = checkIMBMax.ToString();
             progressBarAnalyze.Value++;
+
             int checkLongNameMatches = ErrorChecking.CheckLongName(table1500Layout);
             textBadLongName.Text = checkLongNameMatches.ToString();
             progressBarAnalyze.Value++;
+
             string checkIMBSeqStart = ErrorChecking.CheckIMBSequenceMinimum(table1500Layout);
             textIMBSequenceStart.Text = checkIMBSeqStart.ToString();
             progressBarAnalyze.Value++;
+
             string checkIMBSeqEnd = ErrorChecking.CheckIMBSequenceMaximum(table1500Layout);
             textIMBSequenceEnd.Text = checkIMBSeqEnd.ToString();
             progressBarAnalyze.Value++;
+
             bool checkIMBSequential = ErrorChecking.CheckIMBSequential(table1500Layout);
             textIMBSequential.Text = checkIMBSequential.ToString();
             progressBarAnalyze.Value++;
+
             int checkIMBMatches = ErrorChecking.CheckIMBMatchesData(table1500Layout);
             textIMBMatchData.Text = checkIMBMatches.ToString();
             progressBarAnalyze.Value++;
+
             int checkSalutationBlanks = ErrorChecking.CheckSalutations(table1500Layout);
             textSalutations.Text = checkSalutationBlanks.ToString();
             progressBarAnalyze.Value++;
+
             int checkFullState = ErrorChecking.CheckFullState(table1500Layout);
             textStateMatch.Text = checkFullState.ToString();
             progressBarAnalyze.Value++;
-            int checkAmountsMatch = ErrorChecking.CheckAmountsMatch(table1500Layout);
+
+            int checkAmountsMatch = ErrorChecking.CheckAmountsNotMatch(table1500Layout);
             textAmounts.Text = checkAmountsMatch.ToString();
             progressBarAnalyze.Value++;
+
             int checkBlankFileType = ErrorChecking.CheckFileType(table1500Layout);
             textFileType.Text = checkBlankFileType.ToString();
             progressBarAnalyze.Value++;
+
             int checkBadChars = ErrorChecking.CheckBadCharacters(table1500Layout);
             textBadCharacters.Text = checkBadChars.ToString();
             progressBarAnalyze.Value++;
@@ -429,6 +454,33 @@ namespace WindowsFormsApplication1
             }
         }
 
+        private void textAmounts_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textAmounts.Text.ToString() != "False" && textAmounts.Text.ToString() != "0")
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
+
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsAmounts(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
         // End Class.
     }
 
@@ -664,10 +716,12 @@ namespace WindowsFormsApplication1
         public static bool CheckIMBExists(DataTable currentDataFile)
         {
             // Call the data table's IMB column and look for null values using LINQ.
-            var checkNullExists = currentDataFile.Rows.OfType<DataRow>()
-                .Where(r => r.Field<string>("IMB").ToString() == "");
+            var checkNullExists = currentDataFile.AsEnumerable()
+                .Where(r => r.Field<string>("IMB").ToString() == " " |
+                    r.Field<string>("IMB").ToString() == "");
 
             return checkNullExists.Count() > 0;
+            ;
         }
 
         public static bool CheckIMBUnique(DataTable currentDataFile)
@@ -901,23 +955,24 @@ namespace WindowsFormsApplication1
             return badStateCounts.Count();
         }
 
-        public static int CheckAmountsMatch(DataTable currentDataFile)
+        public static int CheckAmountsNotMatch(DataTable currentDataFile)
         {
             // Just make sure the fields match each other based on AMT_1, AMT_4, against Amount.
             var checkAmounts = currentDataFile.AsEnumerable()
             // START
                 .Where(r => 
-                r.Field<string>("Amt_1").ToString()
+                ! r.Field<string>("Amt_1").ToString()
                 .Contains(
                     r.Field<string>("Amount").ToString()
                         )
-                | // OR
-                r.Field<string>("Amt_4").ToString()
+                && // AND
+                ! r.Field<string>("Amt_4").ToString()
                 .Contains(
                     r.Field<string>("Amount").ToString()
                         )
                     );
             // STOP
+
             return checkAmounts.Count();
         }
         
@@ -935,7 +990,7 @@ namespace WindowsFormsApplication1
             // Look for troublesome special characters among the fields.
             var foundBadCharacters = currentDataFile.AsEnumerable()
                 .Where(r => //!FIX!
-                   r.  .Contains(",")
+                   r.ToString().Contains(",")
                    |
                    r.ToString().Contains("\t")
                    |
@@ -1113,6 +1168,33 @@ namespace WindowsFormsApplication1
             indexBadIMB.AddRange(indexesFound);
 
             return indexBadIMB;
+        }
+
+        public static List<int> DetailsAmounts(DataTable currentDataFile)
+        {
+            // List of ints for return later.
+            List<int> indexBadAmounts = new List<int>();
+            // Just make sure the fields match each other based on AMT_1, AMT_4, against Amount.
+            var checkAmounts = currentDataFile.AsEnumerable()
+            // START
+                .Select((r, i) => new { i, r })
+                .Where(f => !
+                f.r.Field<string>("Amt_1").ToString()
+                .Contains(
+                    f.r.Field<string>("Amount").ToString()
+                        )
+                && // AND
+                ! f.r.Field<string>("Amt_4").ToString()
+                .Contains(
+                    f.r.Field<string>("Amount").ToString()
+                        )
+                    )
+                // Get indexes.
+                .Select(r => r.i);
+            // STOP
+
+            indexBadAmounts.AddRange(checkAmounts);
+            return indexBadAmounts;
         }
 
         // End Class.

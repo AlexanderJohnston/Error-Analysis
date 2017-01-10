@@ -557,6 +557,7 @@
             this.textAmounts.Name = "textAmounts";
             this.textAmounts.Size = new System.Drawing.Size(68, 20);
             this.textAmounts.TabIndex = 41;
+            this.textAmounts.Click += new System.EventHandler(this.textAmounts_Click);
             // 
             // labelStateMatch
             // 
