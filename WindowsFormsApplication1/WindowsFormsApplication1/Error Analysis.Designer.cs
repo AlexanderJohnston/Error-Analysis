@@ -525,6 +525,7 @@
             this.textBadCharacters.Name = "textBadCharacters";
             this.textBadCharacters.Size = new System.Drawing.Size(68, 20);
             this.textBadCharacters.TabIndex = 45;
+            this.textBadCharacters.Click += new System.EventHandler(this.textBadCharacters_Click);
             // 
             // labelFileType
             // 
@@ -574,6 +575,7 @@
             this.textStateMatch.Name = "textStateMatch";
             this.textStateMatch.Size = new System.Drawing.Size(68, 20);
             this.textStateMatch.TabIndex = 35;
+            this.textStateMatch.Click += new System.EventHandler(this.textStateMatch_Click);
             // 
             // labelSalutationBlank
             // 

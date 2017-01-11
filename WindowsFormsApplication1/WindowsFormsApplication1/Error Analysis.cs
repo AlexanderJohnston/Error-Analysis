@@ -481,6 +481,60 @@ namespace WindowsFormsApplication1
             }
         }
 
+        private void textStateMatch_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textStateMatch.Text.ToString() != "False" && textStateMatch.Text.ToString() != "0")
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
+
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsFullState(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
+        private void textBadCharacters_Click(object sender, EventArgs e)
+        {
+            // Check that an error was found before proceeding.
+            if (textBadCharacters.Text.ToString() != "False" && textBadCharacters.Text.ToString() != "0")
+            {
+                // Check the data source before proceeding.
+                if (dataGridView1.DataSource != globalTable) { buttonViewAll.PerformClick(); } // Load the global table.
+
+                // Send the data table. Store index in return as a list.
+                List<int> foundRecords = new List<int>();
+                foundRecords = ErrorChecking.DetailsBadChars(dataGridView1.DataSource as DataTable);
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                var filterQuery = (dataGridView1.DataSource as DataTable).AsEnumerable()
+                    .Where((row, index) => foundRecords.Contains(index))
+                    .CopyToDataTable();
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                DataView filterView = filterQuery.AsDataView();
+                dataGridView1.DataSource = filterView;
+            }
+            else
+            {
+                MessageBox.Show("You must analyze the file first, and more than 0 errors must be displayed.", "Not Enough Errors!");
+            }
+        }
+
         // End Class.
     }
 
@@ -987,21 +1041,14 @@ namespace WindowsFormsApplication1
 
         public static int CheckBadCharacters(DataTable currentDataFile)
         {
-            // Look for troublesome special characters among the fields.
-            var foundBadCharacters = currentDataFile.AsEnumerable()
-                .Where(r => //!FIX!
-                   r.ToString().Contains(",")
-                   |
-                   r.ToString().Contains("\t")
-                   |
-                   r.ToString().Contains("\r")
-                   |
-                   r.ToString().Contains("\n")
-                   |
-                   r.ToString().Contains("\"")
-                );
+            // Look for troublesome special characters among ALL fields.
+            // At long last, I have figured out how to query "ANY" column.
+            // This will cast the columns as DataColumn into an array.
+            DataColumn[] columns = currentDataFile.Columns.Cast<DataColumn>().ToArray();
+            var checkSpecialCharacters = currentDataFile.AsEnumerable()
+                .Where(r => columns.Any(c => r[c].ToString().Contains(',')));
 
-            return foundBadCharacters.Count();
+            return checkSpecialCharacters.Count();
         }
 
         public static List<int> DetailsLongName(DataTable currentDataFile)
@@ -1194,6 +1241,49 @@ namespace WindowsFormsApplication1
             // STOP
 
             indexBadAmounts.AddRange(checkAmounts);
+            return indexBadAmounts;
+        }
+
+        public static List<int> DetailsFullState(DataTable currentDataFile)
+        {
+            // List of ints for return later.
+            List<int> indexBadAmounts = new List<int>();
+            // Just make sure the fields match each other based on AMT_1, AMT_4, against Amount.
+            var checkStates = currentDataFile.AsEnumerable()
+            // START
+                .Select((r, i) => new { i, r })
+                .Where(f =>
+                StateSwitch.GetStateByName(f.r.Field<string>("Full_State").ToString()).ToString()
+                != f.r.Field<string>("ST").ToString())
+                // Get indexes.
+                .Select(r => r.i);
+            // STOP
+
+            indexBadAmounts.AddRange(checkStates);
+            return indexBadAmounts;
+        }
+
+        public static List<int> DetailsBadChars(DataTable currentDataFile)
+        {
+            // List of ints for return later.
+            List<int> indexBadAmounts = new List<int>();
+            // This will cast the columns as DataColumn into an array.
+            DataColumn[] columns = currentDataFile.Columns.Cast<DataColumn>().ToArray();
+            // Look for troublesome special characters among ALL fields.
+            var checkSpecialCharacters = currentDataFile.AsEnumerable()
+                .Select((r, i) => new { i, r })
+                // using f => f.r because of the index select overload.
+                .Where(f => columns.Any(c => f.r[c].ToString().Contains(','))
+                | columns.Any(c => f.r[c].ToString().Contains('\t'))
+                | columns.Any(c => f.r[c].ToString().Contains('\v'))
+                | columns.Any(c => f.r[c].ToString().Contains('\r'))
+                | columns.Any(c => f.r[c].ToString().Contains('\n'))
+                | columns.Any(c => f.r[c].ToString().Contains('"')))
+                .Select(r => r.i);
+
+            // NOTE: I do not know how to perform this calcuation against a list of chars, so I wrote it out manually.
+
+            indexBadAmounts.AddRange(checkSpecialCharacters);
             return indexBadAmounts;
         }
 
