@@ -528,6 +528,33 @@ namespace WindowsFormsApplication1
                 // Make a new dataview based on the query. Set the datasource to the new view.
                 DataView filterView = filterQuery.AsDataView();
                 dataGridView1.DataSource = filterView;
+
+                // Iterate over the data table to hide rows that do not appear in the list.
+                DataTable filteredTable = filterView.ToTable();
+
+                // List of bad chars.
+                /*Char[] badCharList = new Char[] { ',', '\t', '\v', '\r', '\n' , '"' };
+
+                foreach (DataColumn col in filteredTable.Columns)
+                {
+                    if (col.DataType == typeof(string))
+                    {
+                        foreach (DataRow row in filteredTable.Rows)
+                        {
+                            bool match = false;
+                            if (row.Field<string>(col) != null) { match = row.Field<string>(col).ToString().IndexOfAny(badCharList) != -1; }
+                            if (match == true)
+                            {
+                                filterQuery.Rows[row.]
+                            }
+                        }
+                    }
+                }*/
+
+                // Make a new dataview based on the query. Set the datasource to the new view.
+                //DataView highlightView = highlightQuery.AsDataView();
+                //dataGridView1.DataSource = filterView;
+
             }
             else
             {
@@ -1044,7 +1071,8 @@ namespace WindowsFormsApplication1
             // Look for troublesome special characters among ALL fields.
             // At long last, I have figured out how to query "ANY" column.
             // This will cast the columns as DataColumn into an array.
-            DataColumn[] columns = currentDataFile.Columns.Cast<DataColumn>().ToArray();
+            List<DataColumn> columns = currentDataFile.Columns.Cast<DataColumn>().ToList<DataColumn>();
+            columns.RemoveRange(40, 3); // Remove senators and congressmen as they're sanitized ahead of time.
             var checkSpecialCharacters = currentDataFile.AsEnumerable()
                 .Where(r => columns.Any(c => r[c].ToString().Contains(',')));
 
@@ -1268,7 +1296,8 @@ namespace WindowsFormsApplication1
             // List of ints for return later.
             List<int> indexBadAmounts = new List<int>();
             // This will cast the columns as DataColumn into an array.
-            DataColumn[] columns = currentDataFile.Columns.Cast<DataColumn>().ToArray();
+            List<DataColumn> columns = currentDataFile.Columns.Cast<DataColumn>().ToList<DataColumn>();
+            columns.RemoveRange(40, 3); // Remove senators and congressmen as they are sanitized ahead of time.
             // Look for troublesome special characters among ALL fields.
             var checkSpecialCharacters = currentDataFile.AsEnumerable()
                 .Select((r, i) => new { i, r })
@@ -1286,6 +1315,7 @@ namespace WindowsFormsApplication1
             indexBadAmounts.AddRange(checkSpecialCharacters);
             return indexBadAmounts;
         }
+
 
         // End Class.
     }
