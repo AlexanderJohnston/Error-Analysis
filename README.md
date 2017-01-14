@@ -5,7 +5,7 @@ This program is capable of performing the same work using LINQ in under five sec
 
 Please excuse my directory names, as this program is still in beta testing mode. So far it is working as expected.
 
-[b]Navigate to[/b]: Error-Analysis/WindowsFormsApplication1/WindowsFormsApplication1/Error Analysis.cs to begin exploring the code.
+**Navigate to**: Error-Analysis/WindowsFormsApplication1/WindowsFormsApplication1/Error Analysis.cs
 
 Thank you,
 
