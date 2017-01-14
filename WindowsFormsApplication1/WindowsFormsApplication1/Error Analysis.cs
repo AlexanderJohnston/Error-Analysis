@@ -562,6 +562,11 @@ namespace WindowsFormsApplication1
             }
         }
 
+        private void textSalutations_Click(object sender, EventArgs e)
+        {
+
+        }
+
         // End Class.
     }
 
@@ -1384,6 +1389,9 @@ namespace WindowsFormsApplication1
                 case State.DC:
                     return "DISTRICT OF COLUMBIA";
 
+                case State.ER:
+                    return "ERROR";
+
                 case State.FM:
                     return "FEDERATED STATES OF MICRONESIA";
 
@@ -1716,6 +1724,9 @@ namespace WindowsFormsApplication1
 
                 case "WYOMING":
                     return State.WY;
+
+                default:
+                    return State.ER;
             }
 
         throw new Exception("Not Available");
@@ -1781,7 +1792,8 @@ namespace WindowsFormsApplication1
             WA,
             WV,
             WI,
-            WY
+            WY,
+            ER
         }
 
 

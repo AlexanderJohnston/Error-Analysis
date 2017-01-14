@@ -592,6 +592,7 @@
             this.textSalutations.Name = "textSalutations";
             this.textSalutations.Size = new System.Drawing.Size(68, 20);
             this.textSalutations.TabIndex = 33;
+            this.textSalutations.Click += new System.EventHandler(this.textSalutations_Click);
             // 
             // labelPanel4
             // 
